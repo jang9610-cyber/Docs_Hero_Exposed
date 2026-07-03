@@ -157,6 +157,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (win.id === 'window-media-player-figma') {
           controlFigmaPlayer('pauseVideo');
         }
+        // Stop YouTube audio inside Summary Window when it closes
+        if (win.id === 'window-summary') {
+          const summaryIframes = win.querySelectorAll('iframe');
+          summaryIframes.forEach(iframe => {
+            if (iframe.src.includes('youtube.com')) {
+              const currentSrc = iframe.src;
+              iframe.src = '';
+              iframe.src = currentSrc;
+            }
+          });
+        }
         // Open mini radio widget when the main radio is closed
         if (win.id === 'window-radio') {
           const radioWidget = document.getElementById('radio-widget');
@@ -176,6 +187,18 @@ document.addEventListener('DOMContentLoaded', () => {
       minBtn.addEventListener('click', () => {
         playSound('click');
         win.style.display = 'none';
+        
+        // Stop YouTube audio inside Summary Window when minimized
+        if (win.id === 'window-summary') {
+          const summaryIframes = win.querySelectorAll('iframe');
+          summaryIframes.forEach(iframe => {
+            if (iframe.src.includes('youtube.com')) {
+              const currentSrc = iframe.src;
+              iframe.src = '';
+              iframe.src = currentSrc;
+            }
+          });
+        }
       });
     }
   });
