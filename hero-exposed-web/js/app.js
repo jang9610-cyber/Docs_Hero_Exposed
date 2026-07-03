@@ -162,9 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
           const summaryIframes = win.querySelectorAll('iframe');
           summaryIframes.forEach(iframe => {
             if (iframe.src.includes('youtube.com')) {
-              const currentSrc = iframe.src;
-              iframe.src = '';
-              iframe.src = currentSrc;
+              try {
+                iframe.contentWindow.postMessage(JSON.stringify({
+                  event: 'command',
+                  func: 'pauseVideo'
+                }), '*');
+              } catch(e) {}
             }
           });
         }
@@ -193,9 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
           const summaryIframes = win.querySelectorAll('iframe');
           summaryIframes.forEach(iframe => {
             if (iframe.src.includes('youtube.com')) {
-              const currentSrc = iframe.src;
-              iframe.src = '';
-              iframe.src = currentSrc;
+              try {
+                iframe.contentWindow.postMessage(JSON.stringify({
+                  event: 'command',
+                  func: 'pauseVideo'
+                }), '*');
+              } catch(e) {}
             }
           });
         }
