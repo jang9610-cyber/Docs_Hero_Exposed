@@ -111,6 +111,16 @@ document.addEventListener('DOMContentLoaded', () => {
       if (e.target.classList.contains('win-btn')) return;
       
       focusWindow(win);
+
+      // Safeguard: Convert right/bottom styles to left/top to prevent layout stretching bugs
+      const computedStyle = window.getComputedStyle(win);
+      if (win.style.bottom || win.style.right || computedStyle.bottom !== 'auto' || computedStyle.right !== 'auto') {
+        const rect = win.getBoundingClientRect();
+        win.style.left = `${rect.left}px`;
+        win.style.top = `${rect.top}px`;
+        win.style.right = 'auto';
+        win.style.bottom = 'auto';
+      }
       
       let posX = e.clientX;
       let posY = e.clientY;
@@ -978,6 +988,23 @@ document.addEventListener('DOMContentLoaded', () => {
           radioWidget.classList.remove('window-closing');
         }, 160);
       }
+    });
+  }
+
+  const widgetRestore = document.getElementById('widget-restore');
+  if (widgetRestore) {
+    widgetRestore.addEventListener('click', () => {
+      playSound('click');
+      if (radioWidget) {
+        radioWidget.classList.remove('window-open');
+        radioWidget.classList.add('window-closing');
+        setTimeout(() => {
+          radioWidget.style.display = 'none';
+          radioWidget.classList.remove('window-closing');
+        }, 160);
+      }
+      // Restore the main radio window
+      openWindow('window-radio');
     });
   }
 
