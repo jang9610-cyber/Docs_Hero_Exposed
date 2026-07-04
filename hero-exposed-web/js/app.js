@@ -1156,4 +1156,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     openWindow('window-summary');
   }, 1600);
+
+  // Global wrapper function for Werewolf Interrogation click event
+  window.openBossInstructionWindow = function() {
+    openWindow('window-boss');
+  };
 });
