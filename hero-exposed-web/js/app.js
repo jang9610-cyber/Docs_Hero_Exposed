@@ -4,14 +4,14 @@
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
-  
+
   // --- [0] Asset Preloading Engine (Background Caching) ---
   const assetsToPreload = [
     // Big Backgrounds (Crucial for first paint of desktop & game window)
     "./assets/backgrounds/SettlementMonitorBG.png",
     "./assets/backgrounds/Low_BG.png",
     "./assets/backgrounds/BG1.png",
-    
+
     // Normal Sprites (Required for initial renders of windows)
     "./assets/characters/Superior/00_Normal.png",
     "./assets/characters/Werewolf/00_Normal.png",
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "./assets/characters/Ghoul/00_Normal.png",
     "./assets/characters/Vampire/00_Normal.png",
     "./assets/characters/Lich/00_Normal.png",
-    
+
     // Additional Werewolf expressions (Essential for smooth simulator slider lag-free)
     "./assets/characters/Werewolf/01_Angry.png",
     "./assets/characters/Werewolf/02_Nervous.png"
@@ -64,19 +64,19 @@ document.addEventListener('DOMContentLoaded', () => {
     connectBtn.addEventListener('click', () => {
       // 1. Initialize audio context securely
       initAudio();
-      
+
       // 2. Play boot chime
       playSound('boot');
-      
+
       // 3. Trigger fade transitions
       bootScreen.classList.add('fade-out');
-      
+
       if (desktopEl) desktopEl.classList.add('fade-in');
       if (taskbarEl) taskbarEl.classList.add('fade-in');
-      
+
       // Start cascading window animations as desktop fades in
       startBootCascade();
-      
+
       // 4. Remove boot screen entirely after transition
       setTimeout(() => {
         bootScreen.style.display = 'none';
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
         osc.start(now);
         osc.stop(now + 0.05);
-      } 
+      }
       else if (type === 'success') {
         // Happy 8-bit double coin ring
         osc.type = 'square';
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
         osc.start(now);
         osc.stop(now + 0.25);
-      } 
+      }
       else if (type === 'error') {
         // Buzzer sound
         osc.type = 'sawtooth';
@@ -142,11 +142,11 @@ document.addEventListener('DOMContentLoaded', () => {
         osc.frequency.setValueAtTime(329.63, now + 0.08); // E4
         osc.frequency.setValueAtTime(392.00, now + 0.16); // G4
         osc.frequency.setValueAtTime(523.25, now + 0.24); // C5
-        
+
         gain.gain.setValueAtTime(0.12, now);
         gain.gain.linearRampToValueAtTime(0.12, now + 0.3);
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-        
+
         osc.start(now);
         osc.stop(now + 0.5);
       }
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       win.classList.add('active');
       topZIndex += 1;
       win.style.zIndex = topZIndex;
-      
+
       // Update taskbar tab state
       updateTaskbarActiveTab(win.id);
     }
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Window drag-and-drop mechanism
   windows.forEach(win => {
     const titleBar = win.querySelector('.window-title-bar');
-    
+
     // Window click to focus
     win.addEventListener('mousedown', () => {
       focusWindow(win);
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     titleBar.addEventListener('mousedown', (e) => {
       // Do not drag if clicking button control
       if (e.target.classList.contains('win-btn')) return;
-      
+
       focusWindow(win);
 
       // Safeguard: Convert right/bottom styles to left/top to prevent layout stretching bugs
@@ -231,25 +231,25 @@ document.addEventListener('DOMContentLoaded', () => {
         win.style.right = 'auto';
         win.style.bottom = 'auto';
       }
-      
+
       let posX = e.clientX;
       let posY = e.clientY;
-      
+
       function onMouseMove(e) {
         const dx = e.clientX - posX;
         const dy = e.clientY - posY;
         posX = e.clientX;
         posY = e.clientY;
-        
+
         win.style.left = `${win.offsetLeft + dx}px`;
         win.style.top = `${win.offsetTop + dy}px`;
       }
-      
+
       function onMouseUp() {
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', onMouseUp);
       }
-      
+
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     });
@@ -259,17 +259,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeBtn) {
       closeBtn.addEventListener('click', () => {
         playSound('click');
-        
+
         // Trigger scale zoom-out fade animation
         win.classList.remove('window-open');
         win.classList.add('window-closing');
         removeTaskbarTab(win.id);
-        
+
         setTimeout(() => {
           win.style.display = 'none';
           win.classList.remove('window-closing');
         }, 160);
-        
+
         // Pause CCTV player if the window is closed
         if (win.id === 'window-media-player') {
           controlCCTVPlayer('pauseVideo');
@@ -287,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   event: 'command',
                   func: 'pauseVideo'
                 }), '*');
-              } catch(e) {}
+              } catch (e) { }
             }
           });
         }
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
       minBtn.addEventListener('click', () => {
         playSound('click');
         win.style.display = 'none';
-        
+
         // Stop YouTube audio inside Summary Window when minimized
         if (win.id === 'window-summary') {
           const summaryIframes = win.querySelectorAll('iframe');
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   event: 'command',
                   func: 'pauseVideo'
                 }), '*');
-              } catch(e) {}
+              } catch (e) { }
             }
           });
         }
@@ -342,13 +342,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const now = ctx.currentTime;
       osc.frequency.setValueAtTime(320, now);
       osc.frequency.setValueAtTime(640, now + 0.08); // Ascending pop arpeggio
-      
+
       gain.gain.setValueAtTime(0.015, now); // Gentle volume
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
-      
+
       osc.start();
       osc.stop(now + 0.2);
-    } catch(e) {}
+    } catch (e) { }
   }
 
   // Open window function
@@ -358,14 +358,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!silent) {
         playOpenWindowSound(); // Play pop sound!
       }
-      
+
       win.classList.remove('window-closing');
       win.style.display = 'flex';
       void win.offsetWidth; // Force Reflow to trigger CSS scale transition
       win.classList.add('window-open');
       focusWindow(win);
       createTaskbarTab(winId, win.querySelector('.window-title').textContent);
-      
+
       // Close the radio widget if the main radio window is reopened
       if (winId === 'window-radio') {
         const radioWidget = document.getElementById('radio-widget');
@@ -378,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }, 160);
         }
       }
-      
+
       // Start typing animation if boss window is opened
       if (winId === 'window-boss') {
         startBossTyping();
@@ -387,7 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- [3] Start Menu & Desktop Icons Bindings ---
-  
+
   // Toggle Start Menu
   const startBtn = document.getElementById('start-btn');
   const startMenu = document.getElementById('start-menu');
@@ -412,7 +412,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktopIcons = document.querySelectorAll('.desktop-icon');
   desktopIcons.forEach(icon => {
     const target = icon.getAttribute('data-target');
-    
+
     // Support double-click for desktop feel
     icon.addEventListener('dblclick', () => {
       openWindow(target);
@@ -447,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // --- [4] Dynamic Taskbar Tabs System ---
-  
+
   function createTaskbarTab(winId, title) {
     // Check if tab already exists
     if (document.getElementById(`tab-${winId}`)) return;
@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tab.className = 'task-tab';
     tab.id = `tab-${winId}`;
     tab.textContent = title;
-    
+
     tab.addEventListener('click', () => {
       playSound('click');
       const win = document.getElementById(winId);
@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', () => {
           // If already active and clicked, minimize it
           win.style.display = 'none';
           tab.classList.remove('active');
-          
+
           // Pause CCTV if minimized
           if (winId === 'window-media-player') {
             controlCCTVPlayer('pauseVideo');
@@ -536,7 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
   stressRange.addEventListener('input', (e) => {
     const val = parseInt(e.target.value);
     stressNum.textContent = val;
-    
+
     // Change expression & response text based on stress thresholds
     if (val < 50) {
       if (!wolfFace.classList.contains('normal')) {
@@ -547,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
         speechText.textContent = getDialogue('normal');
         playSound('click');
       }
-    } 
+    }
     else if (val >= 50 && val < 80) {
       if (!wolfFace.classList.contains('flustered')) {
         wolfFace.src = "./assets/characters/Werewolf/02_Nervous.png";
@@ -557,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
         speechText.textContent = getDialogue('flustered');
         playSound('click');
       }
-    } 
+    }
     else {
       if (!wolfFace.classList.contains('angry')) {
         wolfFace.src = "./assets/characters/Werewolf/01_Angry.png";
@@ -583,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Dispense action: Play sound & Update ticker text
       playSound('vending');
-      
+
       const cleanName = name.replace(/^\d+\./, '').replace(/_/g, ' ');
       if (invSlotsSpan) invSlotsSpan.textContent = `[ ${cleanName} ]`;
       if (shopMsg) {
@@ -720,7 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateGalleryDisplay() {
     let fileSuffix = currentExpression;
     galleryMainImg.src = `./assets/characters/${currentMonster}/${fileSuffix}.png`;
-    
+
     const mData = monstersData[currentMonster];
     if (mData) {
       galleryMonsterName.textContent = mData.name;
@@ -734,7 +734,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playSound('click');
       monsterListItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
-      
+
       currentMonster = item.getAttribute('data-monster');
       updateGalleryDisplay();
     });
@@ -745,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playSound('click');
       galleryTabBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
+
       currentExpression = btn.getAttribute('data-expression');
       updateGalleryDisplay();
     });
@@ -756,7 +756,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- [9] 3-Layer Desktop Stage Animation Logic (Walking & Breathing Monsters) ---
   const stage = document.getElementById('bg-characters-stage');
   const monsterRaces = ['Werewolf', 'Orc', 'Goblin', 'DarkElf', 'Ghoul', 'Vampire', 'Lich'];
-  
+
   // Custom stage dialogues for walking background monsters (matching their prompts/personalities)
   const stageDialogues = {
     Werewolf: [
@@ -791,52 +791,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function spawnStageMonster() {
     if (!stage) return;
-    
+
     // Choose random monster
     const race = monsterRaces[Math.floor(Math.random() * monsterRaces.length)];
     currentStageMonsterRace = race;
-    
+
     // Create elements
     const charImg = document.createElement('img');
     charImg.className = 'stage-char';
     charImg.src = `./assets/characters/${race}/00_Normal.png`;
     charImg.alt = `${race} stage walker`;
-    
+
     // Setup initial spawn state
     charImg.style.left = '-150px'; // Offscreen left
     stage.appendChild(charImg);
-    
+
     // Start Walk in
     setTimeout(() => {
       charImg.classList.add('walking');
       charImg.style.left = '50%'; // Exact horizontal center of the window hole
     }, 100);
-    
+
     // 3 seconds walk in complete
     setTimeout(() => {
       charImg.classList.remove('walking');
       charImg.classList.add('breathe');
-      
+
       // Spawn Speech Bubble using unified safety helper (6.5s duration)
       const quotes = stageDialogues[race];
       showStageBubble(quotes[Math.floor(Math.random() * quotes.length)], 6500);
-      
+
       // Let speech display for 6.5 seconds, then fade out and exit character
       setTimeout(() => {
         charImg.classList.remove('breathe');
         charImg.classList.add('walking');
         charImg.style.left = '135%'; // Offscreen right
-        
+
         // Complete walk out (3s)
         setTimeout(() => {
           charImg.remove();
           currentStageMonsterRace = null; // Reset
-          
+
           // Wait 1.5 seconds and spawn the next monster!
           setTimeout(spawnStageMonster, 1500);
         }, 3000);
       }, 6800); // 6.5s text display + 300ms transition buffer
-      
+
     }, 3200);
   }
 
@@ -857,7 +857,7 @@ document.addEventListener('DOMContentLoaded', () => {
       timeSpan.textContent = `${hours}:${minutes} ${ampm}`;
     }
   }
-  
+
   // --- [11] Mawang OS Radio Audio Player Logic ---
   const radioAudio = new Audio();
   let currentTrackIndex = 0;
@@ -919,11 +919,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function playTrack(index) {
     if (index < 0 || index >= trackFiles.length) return;
     currentTrackIndex = index;
-    
+
     // Swap audio source
     radioAudio.src = `./assets/bgm/${trackFiles[index]}`;
     radioAudio.load();
-    
+
     radioAudio.play()
       .then(() => {
         radioStatusText.textContent = `▶ ON AIR - Track ${index + 1} (${trackNames[index]})`;
@@ -996,7 +996,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Volume Slider Control
   if (radioVolSlider) {
-    radioVolSlider.addEventListener('input', function() {
+    radioVolSlider.addEventListener('input', function () {
       radioAudio.volume = this.value / 100;
     });
   }
@@ -1017,7 +1017,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Click on seek track to jump time
   if (radioSeekTrack) {
-    radioSeekTrack.addEventListener('click', function(e) {
+    radioSeekTrack.addEventListener('click', function (e) {
       if (!radioAudio.duration) return;
       const rect = this.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
@@ -1108,7 +1108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- [11-3] Mawang Boss Window Typewriter & Accordion Logic ---
   let bossTypingInterval = null;
-  
+
   function startBossTyping() {
     const sourceEl = document.getElementById('boss-source-text');
     const targetEl = document.getElementById('boss-typing-area');
@@ -1131,13 +1131,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         osc.type = 'triangle';
         osc.frequency.setValueAtTime(450 + Math.random() * 150, ctx.currentTime);
-        
+
         gain.gain.setValueAtTime(0.012, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.03);
-        
+
         osc.start();
         osc.stop(ctx.currentTime + 0.03);
-      } catch(e) {}
+      } catch (e) { }
     }
 
     function type() {
@@ -1165,13 +1165,13 @@ document.addEventListener('DOMContentLoaded', () => {
           targetEl.innerHTML += text.charAt(index);
           index++;
         }
-        
+
         // Play typing key sound has been disabled to prevent sound cluttering and audio buffer saturation
 
         bossTypingInterval = setTimeout(type, 12); // Snappy 12ms typing rate
       }
     }
-    
+
     // Tiny delay before starting the print
     bossTypingInterval = setTimeout(type, 150);
   }
@@ -1179,11 +1179,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Bind accordion actions
   const bossAccTriggers = document.querySelectorAll('.boss-acc-trigger');
   bossAccTriggers.forEach(trigger => {
-    trigger.addEventListener('click', function() {
+    trigger.addEventListener('click', function () {
       playSound('click');
       const parent = this.closest('.boss-acc-item');
       const content = parent.querySelector('.boss-acc-content');
-      
+
       // Close other items for single-open accord style
       document.querySelectorAll('.boss-acc-item').forEach(item => {
         if (item !== parent) {
@@ -1215,7 +1215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sGalleryMainImg) {
       sGalleryMainImg.src = `./assets/characters/${currentSMonster}/${fileSuffix}.png`;
     }
-    
+
     const mData = monstersData[currentSMonster];
     if (mData) {
       if (sGalleryMonsterName) sGalleryMonsterName.textContent = mData.name;
@@ -1229,7 +1229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playSound('click');
       sMonsterListItems.forEach(i => i.classList.remove('active'));
       item.classList.add('active');
-      
+
       currentSMonster = item.getAttribute('data-monster');
       // Reset expression tab to Normal on monster swap
       currentSExpression = '00_Normal';
@@ -1240,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', () => {
           b.classList.remove('active');
         }
       });
-      
+
       updateSummaryGalleryDisplay();
     });
   });
@@ -1250,7 +1250,7 @@ document.addEventListener('DOMContentLoaded', () => {
       playSound('click');
       sGalleryTabBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      
+
       currentSExpression = btn.getAttribute('data-expression');
       updateSummaryGalleryDisplay();
     });
@@ -1266,22 +1266,22 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       openWindow('window-boss', true);
     }, 450);
-    
+
     setTimeout(() => {
       openWindow('window-radio');
     }, 950);
-    
+
     setTimeout(() => {
       openWindow('window-game');
     }, 1450);
-    
+
     setTimeout(() => {
       openWindow('window-summary');
     }, 1950);
   }
 
   // Global wrapper function for Werewolf Interrogation click event
-  window.openBossInstructionWindow = function() {
+  window.openBossInstructionWindow = function () {
     openWindow('window-boss');
   };
 
@@ -1303,7 +1303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function triggerDownloadHighlight() {
     if (!gameDownloadBtn) return;
-    
+
     // Backup user input text before clearing
     const userText = gameSimInput ? gameSimInput.value.trim() : '';
 
@@ -1312,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Add visual bouncing/flashing effect to download button
     gameDownloadBtn.classList.add('highlight-active');
-    
+
     if (downloadHighlightTimeout) clearTimeout(downloadHighlightTimeout);
     downloadHighlightTimeout = setTimeout(() => {
       gameDownloadBtn.classList.remove('highlight-active');
@@ -1323,11 +1323,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const floatTextEl = document.createElement('div');
       floatTextEl.className = 'floating-user-text';
       floatTextEl.textContent = `💬 "${userText}"`;
-      
+
       const gameWindowBody = document.querySelector('.game-window-body');
       if (gameWindowBody) {
         gameWindowBody.appendChild(floatTextEl);
-        
+
         // Auto remove after animation completes
         setTimeout(() => {
           floatTextEl.remove();
@@ -1340,7 +1340,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Guide text selection (Wording changed to "우측 하단")
     let guideText = "⚠️ [시스템 안내]: 이곳은 구동 예시 화면입니다. 진짜 AI NPC와의 심문 및 플레이를 진행하려면 우측 하단의 [빌드파일 다운로드] 버튼을 클릭해 다운로드받아 주십시오!\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)";
-    
+
     if (currentStageMonsterRace && downloadGuideQuotes[currentStageMonsterRace]) {
       guideText = downloadGuideQuotes[currentStageMonsterRace];
     }
@@ -1364,4 +1364,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // --- [11-8] Responsive Icon Grid: column-first layout that fits the viewport ---
+  // Calculates how many rows fit in the desktop and sets --icon-rows on .icon-grid
+  // so that icons fill top→bottom then wrap to new columns (Windows 95 style).
+  function resizeIconGrid() {
+    const iconGrid = document.querySelector('.icon-grid');
+    const desktopArea = document.getElementById('desktop');
+    if (!iconGrid || !desktopArea) return;
+
+    const ICON_ROW_H = 125;  // px — matches grid-template-rows value in CSS
+    const GAP = 20;           // px — matches gap value in CSS
+    const PADDING_TOP = 30;   // px — padding-top on .icon-grid
+    const PADDING_BOTTOM = 20; // px — breathing room above taskbar
+
+    // Available height inside the desktop element (excludes taskbar)
+    const desktopH = desktopArea.clientHeight;
+    const available = desktopH - PADDING_TOP - PADDING_BOTTOM;
+
+    // How many full rows fit?
+    const rows = Math.max(1, Math.floor((available + GAP) / (ICON_ROW_H + GAP)));
+    iconGrid.style.setProperty('--icon-rows', rows);
+  }
+
+  // Run once immediately so icons are sized correctly before any resize
+  resizeIconGrid();
+
+  // Re-run on every window resize for live responsiveness
+  window.addEventListener('resize', resizeIconGrid);
 });

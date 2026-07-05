@@ -5,8 +5,10 @@
 
 /* 1. Global Reset & Theme Variables */
 :root {
-  --os-bg: #008080; /* Classic Windows Teal */
-  --win-gray: #c0c0c0; /* Standard 95 Grey */
+  --os-bg: #008080;
+  /* Classic Windows Teal */
+  --win-gray: #c0c0c0;
+  /* Standard 95 Grey */
   --win-dark: #808080;
   --win-darkest: #404040;
   --win-light: #ffffff;
@@ -29,7 +31,8 @@
   -moz-osx-font-smoothing: none;
 }
 
-body, html {
+body,
+html {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -54,17 +57,28 @@ body, html {
 }
 
 @keyframes crt-flicker {
-  0% { opacity: 0.15; }
-  50% { opacity: 0.13; }
-  100% { opacity: 0.15; }
+  0% {
+    opacity: 0.15;
+  }
+
+  50% {
+    opacity: 0.13;
+  }
+
+  100% {
+    opacity: 0.15;
+  }
 }
 
 body::after {
   content: " ";
   display: block;
   position: fixed;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.4) 100%);
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.4) 100%);
   z-index: 999998;
   pointer-events: none;
 }
@@ -72,7 +86,8 @@ body::after {
 /* 3. Main Desktop Area */
 .desktop {
   width: 100%;
-  height: calc(100% - 40px); /* Minus Taskbar */
+  height: calc(100% - 40px);
+  /* Minus Taskbar */
   position: relative;
   padding: 20px;
   overflow: hidden;
@@ -127,37 +142,39 @@ body::after {
   left: 33.5%;
   width: 36.8%;
   height: 48.4%;
-  overflow: visible; /* Let bubble overflow upwards */
+  overflow: visible;
+  /* Let bubble overflow upwards */
 }
 
 /* BG1: Office Foreground with window mask (using winding polygon to create hole) */
 .bg-high {
   background-image: url('../assets/backgrounds/BG1.png');
   z-index: 3;
-  clip-path: polygon(
-    0% 0%, 
-    0% 100%, 
-    100% 100%, 
-    100% 0%, 
-    0% 0%, 
-    33.2% 12.7%, 
-    70.3% 12.7%, 
-    70.3% 61.1%, 
-    33.2% 61.1%, 
-    33.2% 12.7%
-  );
+  clip-path: polygon(0% 0%,
+      0% 100%,
+      100% 100%,
+      100% 0%,
+      0% 0%,
+      33.2% 12.7%,
+      70.3% 12.7%,
+      70.3% 61.1%,
+      33.2% 61.1%,
+      33.2% 12.7%);
 }
 
 /* Stage Character Sprite Styles */
 .stage-char {
   position: absolute;
-  bottom: -6%; /* Sinks slightly below the window bottom border to blend with the foreground desk layer */
-  height: 96%; /* Enlarge to fill the window vertically like the reference game screenshot */
+  bottom: -6%;
+  /* Sinks slightly below the window bottom border to blend with the foreground desk layer */
+  height: 96%;
+  /* Enlarge to fill the window vertically like the reference game screenshot */
   object-fit: contain;
   image-rendering: pixelated;
   transition: left 3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: bottom center;
-  transform: translateX(-50%); /* Center pivot horizontally */
+  transform: translateX(-50%);
+  /* Center pivot horizontally */
 }
 
 /* Character Animations */
@@ -170,13 +187,27 @@ body::after {
 }
 
 @keyframes walking-sway {
-  0%, 100% { transform: translateX(-50%) rotate(-4deg); }
-  50% { transform: translateX(-50%) rotate(4deg) translateY(-2px); }
+
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-4deg);
+  }
+
+  50% {
+    transform: translateX(-50%) rotate(4deg) translateY(-2px);
+  }
 }
 
 @keyframes breathe-anim {
-  0%, 100% { transform: translateX(-50%) scaleY(1) scaleX(1); }
-  50% { transform: translateX(-50%) scaleY(1.06) scaleX(0.96) translateY(-1px); }
+
+  0%,
+  100% {
+    transform: translateX(-50%) scaleY(1) scaleX(1);
+  }
+
+  50% {
+    transform: translateX(-50%) scaleY(1.06) scaleX(0.96) translateY(-1px);
+  }
 }
 
 /* Desktop Window Chat Bubble (Positioned to the right side of the character) */
@@ -192,13 +223,16 @@ body::after {
   padding: 8px 12px;
   color: black;
   font-family: var(--font-pixel);
-  font-size: 12px; /* Increased from 10px to match the enlarged 880px window */
-  width: 220px; /* Increased from 170px for cozy readable text width */
+  font-size: 12px;
+  /* Increased from 10px to match the enlarged 880px window */
+  width: 220px;
+  /* Increased from 170px for cozy readable text width */
   line-height: 1.4;
   box-shadow: 1.5px 1.5px 0 #000;
   opacity: 0;
   transition: opacity 0.2s ease-in-out, transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  z-index: 4; /* Higher than .bg-high foreground which is z-index: 3 */
+  z-index: 4;
+  /* Higher than .bg-high foreground which is z-index: 3 */
   pointer-events: none;
 }
 
@@ -236,19 +270,28 @@ body::after {
   border-bottom: 5px solid transparent;
 }
 
-/* Icons Grid System */
+/* Icons Grid System — column-first flow, dynamically sized by JS */
 .icon-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
-  grid-auto-rows: 125px;
-  grid-flow: column; /* Vertically stack icons like real windows */
+  /* Icons fill top→bottom, then wrap to next column (Windows 95 style) */
+  grid-auto-flow: column;
+  /* Row count is driven by JS via --icon-rows so the grid always fits in the viewport */
+  grid-template-rows: repeat(var(--icon-rows, 5), 125px);
+  /* Each column is exactly one icon wide */
+  grid-auto-columns: 115px;
   gap: 20px;
-  width: auto;
-  max-width: 320px;
-  height: 100%;
+  /* Width expands naturally to accommodate however many columns are needed */
+  width: max-content;
+  /* Never exceed the available desktop area */
+  max-width: calc(100% - 0px);
+  /* Height is determined by the row template above */
+  height: auto;
   z-index: 10;
   position: relative;
-  padding-top: 30px; /* Secure head clearance for the summary bouncing bubble */
+  /* Top padding reserves space for the ★요약_포트폴리오 bounce bubble */
+  padding-top: 30px;
+  /* Align to top-left of the desktop */
+  align-self: start;
 }
 
 .desktop-icon {
@@ -284,11 +327,13 @@ body::after {
   clip-path: polygon(15% 15%, 85% 15%, 85% 85%, 15% 85%);
   position: relative;
 }
+
 .game-exe-icon::after {
   content: "🎮";
   font-size: 24px;
   position: absolute;
-  top: 50%; left: 51%;
+  top: 50%;
+  left: 51%;
   transform: translate(-50%, -50%);
 }
 
@@ -297,6 +342,7 @@ body::after {
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   position: relative;
 }
+
 .boss-alert::after {
   content: "!";
   color: white;
@@ -350,12 +396,15 @@ body::after {
   box-shadow: 2px 2px 0px #000;
   position: relative;
 }
+
 .computer-img::after {
   content: "";
   position: absolute;
-  bottom: -6px; left: 50%;
+  bottom: -6px;
+  left: 50%;
   transform: translateX(-50%);
-  width: 16px; height: 6px;
+  width: 16px;
+  height: 6px;
   background-color: #c0c0c0;
   border: 2px solid #808080;
 }
@@ -371,7 +420,8 @@ body::after {
 }
 
 .figma-video-img {
-  background: linear-gradient(135deg, #f24e1e 0%, #a259ff 100%); /* Figma brand gradient */
+  background: linear-gradient(135deg, #f24e1e 0%, #a259ff 100%);
+  /* Figma brand gradient */
   clip-path: polygon(0 20%, 80% 20%, 80% 0, 100% 50%, 80% 100%, 80% 80%, 0 80%);
 }
 
@@ -408,7 +458,7 @@ body::after {
   flex-direction: column;
   z-index: 100;
   min-width: 250px;
-  
+
   /* Snappy spring pop transitions for opening/closing */
   transition: transform 0.16s cubic-bezier(0.34, 1.35, 0.64, 1), opacity 0.12s ease-out;
   transform: scale(0.92);
@@ -432,7 +482,10 @@ body::after {
 .window::after {
   content: "";
   position: absolute;
-  top: 1px; left: 1px; right: 1px; bottom: 1px;
+  top: 1px;
+  left: 1px;
+  right: 1px;
+  bottom: 1px;
   border-top: 1px solid var(--win-gray);
   border-left: 1px solid var(--win-gray);
   border-bottom: 1.5px solid var(--win-dark);
@@ -496,16 +549,20 @@ body::after {
 .win-min::after {
   content: "";
   position: absolute;
-  bottom: 3px; left: 3px;
-  width: 6px; height: 2px;
+  bottom: 3px;
+  left: 3px;
+  width: 6px;
+  height: 2px;
   background-color: black;
 }
 
 .win-max::after {
   content: "";
   position: absolute;
-  top: 3px; left: 3px;
-  width: 8px; height: 6px;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 6px;
   border-top: 2px solid black;
   border-left: 1px solid black;
   border-right: 1px solid black;
@@ -515,7 +572,8 @@ body::after {
 .win-close::after {
   content: "×";
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -52%);
   color: black;
   font-weight: bold;
@@ -550,7 +608,8 @@ body::after {
   padding: 12px;
   overflow-y: auto;
   flex-grow: 1;
-  max-height: 720px; /* Increased from 480px for larger monitors */
+  max-height: 720px;
+  /* Increased from 480px for larger monitors */
 }
 
 .window-body.scrollable {
@@ -585,10 +644,12 @@ body::after {
 
 .shop-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* 2-column grid layout for 8 items */
+  grid-template-columns: 1fr 1fr;
+  /* 2-column grid layout for 8 items */
   gap: 8px;
   margin: 10px 0;
-  max-height: 380px; /* Enable vertical scroll bar if needed */
+  max-height: 380px;
+  /* Enable vertical scroll bar if needed */
   overflow-y: auto;
   padding: 4px;
 }
@@ -640,18 +701,42 @@ body::after {
 }
 
 /* Can Gradients */
-.can-red    { background: linear-gradient(to bottom, #ff3b30 20%, #b3160e 80%); }
-.can-blue   { background: linear-gradient(to bottom, #007aff 20%, #004080 80%); }
-.can-green  { background: linear-gradient(to bottom, #34c759 20%, #1c7c32 80%); }
-.can-orange { background: linear-gradient(to bottom, #ff9500 20%, #b36600 80%); }
-.can-purple { background: linear-gradient(to bottom, #af52de 20%, #6c2d91 80%); }
-.can-gold   { background: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%); }
-.can-pink   { background: linear-gradient(to bottom, #ff2d55 20%, #b30e2f 80%); }
-.can-sky    { background: linear-gradient(to bottom, #5ac8fa 20%, #1c7c9c 80%); }
+.can-red {
+  background: linear-gradient(to bottom, #ff3b30 20%, #b3160e 80%);
+}
+
+.can-blue {
+  background: linear-gradient(to bottom, #007aff 20%, #004080 80%);
+}
+
+.can-green {
+  background: linear-gradient(to bottom, #34c759 20%, #1c7c32 80%);
+}
+
+.can-orange {
+  background: linear-gradient(to bottom, #ff9500 20%, #b36600 80%);
+}
+
+.can-purple {
+  background: linear-gradient(to bottom, #af52de 20%, #6c2d91 80%);
+}
+
+.can-gold {
+  background: linear-gradient(to bottom, #ffd700 20%, #b8860b 80%);
+}
+
+.can-pink {
+  background: linear-gradient(to bottom, #ff2d55 20%, #b30e2f 80%);
+}
+
+.can-sky {
+  background: linear-gradient(to bottom, #5ac8fa 20%, #1c7c9c 80%);
+}
 
 .item-details {
   flex-grow: 1;
-  min-width: 0; /* Prevent details text from squeezing the buy button */
+  min-width: 0;
+  /* Prevent details text from squeezing the buy button */
 }
 
 .item-name-tag {
@@ -677,14 +762,18 @@ body::after {
 
 /* Explicit style fix for the '뽑기' vending buttons to prevent vertical text breaking */
 .shop-item .buy-btn {
-  width: 64px; /* Enlarged from 50px */
+  width: 64px;
+  /* Enlarged from 50px */
   min-width: 64px;
-  height: 32px; /* Enlarged height for a chunkier button */
-  line-height: 30px; /* Centered font mapping */
+  height: 32px;
+  /* Enlarged height for a chunkier button */
+  line-height: 30px;
+  /* Centered font mapping */
   flex-shrink: 0;
   white-space: nowrap;
   padding: 0;
-  font-size: 12px; /* Increased for legibility */
+  font-size: 12px;
+  /* Increased for legibility */
   font-family: var(--font-pixel);
   text-align: center;
 }
@@ -746,14 +835,27 @@ body::after {
 }
 
 @keyframes jitter {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  100% { transform: translate(-1px, -1px) rotate(0.5deg); }
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-1px, -1px) rotate(0.5deg);
+  }
 }
 
 @keyframes anger-rumble {
-  0% { transform: translate(2px, 2px); }
-  50% { transform: translate(-2px, -2px); }
-  100% { transform: translate(2px, -2px); }
+  0% {
+    transform: translate(2px, 2px);
+  }
+
+  50% {
+    transform: translate(-2px, -2px);
+  }
+
+  100% {
+    transform: translate(2px, -2px);
+  }
 }
 
 .npc-speech-bubble {
@@ -839,9 +941,18 @@ body::after {
   font-size: 11px;
 }
 
-.badge-normal { background-color: #000080; }
-.badge-flustered { background-color: #b8860b; color: black; }
-.badge-angry { background-color: #800000; }
+.badge-normal {
+  background-color: #000080;
+}
+
+.badge-flustered {
+  background-color: #b8860b;
+  color: black;
+}
+
+.badge-angry {
+  background-color: #800000;
+}
 
 .sim-hint {
   font-size: 11px;
@@ -892,7 +1003,8 @@ body::after {
   outline: none;
 }
 
-.start-btn:active, .start-btn.active {
+.start-btn:active,
+.start-btn.active {
   border-top: 2px solid var(--win-darkest);
   border-left: 2px solid var(--win-darkest);
   border-bottom: 2px solid var(--win-light);
@@ -1153,7 +1265,8 @@ body::after {
 }
 
 .stat-label {
-  width: 250px; /* Increased from 140px to fit longer role descriptions cleanly */
+  width: 250px;
+  /* Increased from 140px to fit longer role descriptions cleanly */
   font-size: 11px;
 }
 
@@ -1189,16 +1302,19 @@ body::after {
 .doc-detail {
   z-index: 110;
 }
+
 .doc-detail h3 {
   font-family: var(--font-pixel);
   margin-bottom: 6px;
 }
+
 .doc-detail h4 {
   font-family: var(--font-pixel);
   color: #000080;
   margin-top: 12px;
   margin-bottom: 4px;
 }
+
 .doc-detail p {
   font-size: 12px;
   line-height: 1.5;
@@ -1320,7 +1436,8 @@ body::after {
   display: flex;
   width: 100%;
   height: 100%;
-  min-height: 600px; /* Increased from 380px for a much larger window */
+  min-height: 600px;
+  /* Increased from 380px for a much larger window */
 }
 
 .gallery-sidebar {
@@ -1415,7 +1532,8 @@ body::after {
 
 .gallery-img-container {
   width: 100%;
-  height: 420px; /* Increased from 200px to make character art significantly larger */
+  height: 420px;
+  /* Increased from 200px to make character art significantly larger */
   background-color: #2e3037;
   border: 2px inset var(--win-dark);
   display: flex;
@@ -1499,11 +1617,13 @@ body::after {
   border-radius: 2px;
   position: relative;
 }
+
 .game-icon-small::after {
   content: "🎮";
   font-size: 8px;
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
@@ -1512,7 +1632,8 @@ body::after {
   height: 100%;
   display: flex;
   flex-direction: column;
-  max-height: none !important; /* Remove the default 720px height limit for fullscreen visuals */
+  max-height: none !important;
+  /* Remove the default 720px height limit for fullscreen visuals */
 }
 
 .pdf-viewer-body iframe {
@@ -1523,7 +1644,8 @@ body::after {
 }
 
 .gallery-window-body {
-  max-height: none !important; /* Allow the character art gallery to expand without 720px height clipping */
+  max-height: none !important;
+  /* Allow the character art gallery to expand without 720px height clipping */
 }
 
 /* 14. CCTV YouTube Player Fallback Link Styles */
@@ -1555,8 +1677,10 @@ body::after {
   position: absolute;
   right: 25px;
   bottom: 25px;
-  z-index: 10; /* Elevates above BG1 foreground */
-  background-color: #ffd700; /* Retro Gold Alert */
+  z-index: 10;
+  /* Elevates above BG1 foreground */
+  background-color: #ffd700;
+  /* Retro Gold Alert */
   border-top: 2px solid #ffffff;
   border-left: 2px solid #ffffff;
   border-bottom: 2px solid #000000;
@@ -1583,8 +1707,17 @@ body::after {
 }
 
 @keyframes game-btn-blink {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.65; transform: scale(0.96); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.65;
+    transform: scale(0.96);
+  }
 }
 
 /* 16. Mawang OS Radio Custom Styles */
@@ -1630,8 +1763,13 @@ body::after {
 }
 
 @keyframes radio-ticker-anim {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 .radio-time-info {
@@ -1726,49 +1864,49 @@ body::after {
   body {
     font-size: 13px;
   }
-  
+
   .desktop {
     padding: 10px;
   }
-  
+
   .icon-grid {
     grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
     grid-auto-rows: 80px;
     max-width: 100%;
     height: auto;
   }
-  
+
   .window {
     top: 5% !important;
     left: 2% !important;
     width: 96% !important;
     max-height: 85% !important;
   }
-  
+
   .profile-header {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .stat-label {
     width: 100px;
   }
-  
+
   .sim-panel {
     gap: 8px;
   }
-  
+
   .gallery-layout {
     flex-direction: column;
     height: auto;
   }
-  
+
   .gallery-sidebar {
     width: 100%;
     height: 100px;
     margin-bottom: 8px;
   }
-  
+
   .gallery-content {
     padding-left: 0;
   }
@@ -1776,7 +1914,8 @@ body::after {
 
 /* --- [12] Mawang Boss Confidential Document Styling --- */
 .boss-confidential-window {
-  border: 3px double #d80000 !important; /* Double red border for alert */
+  border: 3px double #d80000 !important;
+  /* Double red border for alert */
 }
 
 .warning-title-bar {
@@ -1796,7 +1935,8 @@ body::after {
   transform: translate(-50%, -50%) rotate(-25deg);
   font-family: var(--font-pixel), Impact, sans-serif;
   font-size: 48px;
-  color: rgba(216, 0, 0, 0.08); /* Faint alert red watermark */
+  color: rgba(216, 0, 0, 0.08);
+  /* Faint alert red watermark */
   font-weight: 900;
   pointer-events: none;
   user-select: none;
@@ -1885,7 +2025,8 @@ body::after {
   padding: 8px;
   font-size: 11px;
   color: #444;
-  display: none; /* Controlled by JS toggle class */
+  display: none;
+  /* Controlled by JS toggle class */
 }
 
 .boss-acc-content.open {
@@ -1944,27 +2085,32 @@ body::after {
 
 @keyframes boss-glitch-anim {
   0% {
-    text-shadow: 0.5px 0 0 rgba(255,0,0,0.5), -0.5px 0 0 rgba(0,0,255,0.5);
+    text-shadow: 0.5px 0 0 rgba(255, 0, 0, 0.5), -0.5px 0 0 rgba(0, 0, 255, 0.5);
     transform: translate(0, 0);
   }
+
   20% {
-    text-shadow: -0.5px 0 0 rgba(255,0,0,0.5), 0.5px 0 0 rgba(0,0,255,0.5);
+    text-shadow: -0.5px 0 0 rgba(255, 0, 0, 0.5), 0.5px 0 0 rgba(0, 0, 255, 0.5);
     transform: translate(0.5px, -0.5px);
   }
+
   40% {
-    text-shadow: 0.5px -0.5px 0 rgba(255,0,0,0.5), -0.5px 0.5px 0 rgba(0,0,255,0.5);
+    text-shadow: 0.5px -0.5px 0 rgba(255, 0, 0, 0.5), -0.5px 0.5px 0 rgba(0, 0, 255, 0.5);
     transform: translate(-0.5px, 0px);
   }
+
   60% {
-    text-shadow: -0.5px 0.5px 0 rgba(255,0,0,0.5), 0.5px -0.5px 0 rgba(0,0,255,0.5);
+    text-shadow: -0.5px 0.5px 0 rgba(255, 0, 0, 0.5), 0.5px -0.5px 0 rgba(0, 0, 255, 0.5);
     transform: translate(0px, 0.5px);
   }
+
   80% {
-    text-shadow: 0.5px 0 0 rgba(255,0,0,0.5), -0.5px 0 0 rgba(0,0,255,0.5);
+    text-shadow: 0.5px 0 0 rgba(255, 0, 0, 0.5), -0.5px 0 0 rgba(0, 0, 255, 0.5);
     transform: translate(-0.5px, -0.5px);
   }
+
   100% {
-    text-shadow: -0.5px 0 0 rgba(255,0,0,0.5), 0.5px 0 0 rgba(0,0,255,0.5);
+    text-shadow: -0.5px 0 0 rgba(255, 0, 0, 0.5), 0.5px 0 0 rgba(0, 0, 255, 0.5);
     transform: translate(0, 0);
   }
 }
@@ -2000,7 +2146,7 @@ body::after {
   border-right: 1.5px solid var(--win-dark);
   padding: 10px;
   margin-bottom: 15px;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .summary-card-header {
@@ -2037,7 +2183,8 @@ body::after {
 }
 
 .summary-vending-can:hover {
-  background-color: #ffe082; /* Hover gold highlight */
+  background-color: #ffe082;
+  /* Hover gold highlight */
 }
 
 .summary-can-details {
@@ -2088,7 +2235,8 @@ body::after {
 .summary-stat-row .stat-track {
   flex-grow: 1;
   margin: 0 10px;
-  max-width: 300px; /* Keep bars tidy, avoiding stretched width */
+  max-width: 300px;
+  /* Keep bars tidy, avoiding stretched width */
   height: 12px;
   background-color: #808080;
   border-bottom: 1.5px solid var(--win-light);
@@ -2100,7 +2248,8 @@ body::after {
 
 .summary-stat-row .stat-fill {
   height: 100%;
-  background-color: #000080; /* Navy fill */
+  background-color: #000080;
+  /* Navy fill */
 }
 
 .stat-pct-summary {
@@ -2136,7 +2285,7 @@ body::after {
   border-left: 1.5px solid var(--win-dark) !important;
   border-bottom: 1.5px solid var(--win-light) !important;
   border-right: 1.5px solid var(--win-light) !important;
-  box-shadow: inset 1px 1px 1px rgba(0,0,0,0.3);
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
 .s-gallery-tab-btn {
@@ -2144,9 +2293,12 @@ body::after {
   font-family: var(--font-pixel);
   padding: 6px 14px !important;
   white-space: nowrap;
-  min-width: 110px; /* Fully accommodate normal / nervous / angry text */
-  height: auto !important; /* Overrule win-btn fixed height */
-  line-height: 1.4 !important; /* Ensure vertical space for text */
+  min-width: 110px;
+  /* Fully accommodate normal / nervous / angry text */
+  height: auto !important;
+  /* Overrule win-btn fixed height */
+  line-height: 1.4 !important;
+  /* Ensure vertical space for text */
   cursor: pointer;
   box-sizing: border-box;
 }
@@ -2158,7 +2310,7 @@ body::after {
   border-left: 1.5px solid var(--win-dark) !important;
   border-bottom: 1.5px solid var(--win-light) !important;
   border-right: 1.5px solid var(--win-light) !important;
-  box-shadow: inset 1px 1px 1px rgba(0,0,0,0.15);
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.15);
 }
 
 /* Project Resources Button Styles in Summary Window */
@@ -2171,7 +2323,8 @@ body::after {
 }
 
 .summary-resource-btn[style*="background-color: #ffd54f"]:hover {
-  background-color: #ffca28 !important; /* Rich golden hover for build download button */
+  background-color: #ffca28 !important;
+  /* Rich golden hover for build download button */
 }
 
 .summary-resource-btn:active {
@@ -2179,7 +2332,7 @@ body::after {
   border-left: 1.5px solid var(--win-dark) !important;
   border-bottom: 1.5px solid var(--win-light) !important;
   border-right: 1.5px solid var(--win-light) !important;
-  box-shadow: inset 1px 1px 1px rgba(0,0,0,0.2) !important;
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* --- [14] Summary Icon Highlight & FontSize Expansion --- */
@@ -2200,6 +2353,7 @@ body::after {
     box-shadow: 0 0 2px rgba(255, 235, 59, 0.2);
     outline-color: #ff9800;
   }
+
   100% {
     box-shadow: 0 0 14px rgba(255, 235, 59, 0.7);
     outline-color: #ffff00;
@@ -2243,6 +2397,7 @@ body::after {
   0% {
     top: -15px;
   }
+
   100% {
     top: -21px;
   }
@@ -2252,11 +2407,12 @@ body::after {
 .summary-viewer-body {
   font-size: 13px !important;
   line-height: 1.62 !important;
-  max-height: none !important; /* Overrule window-body max-height limit on large screen resolutions */
+  max-height: none !important;
+  /* Overrule window-body max-height limit on large screen resolutions */
 }
 
-.summary-viewer-body p, 
-.summary-viewer-body li, 
+.summary-viewer-body p,
+.summary-viewer-body li,
 .summary-viewer-body blockquote {
   font-size: 13px !important;
 }
@@ -2319,11 +2475,13 @@ body::after {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #0b0c10; /* Dark sci-fi/retro base */
+  background-color: #0b0c10;
+  /* Dark sci-fi/retro base */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999990; /* Right under crt-overlay (999999) */
+  z-index: 999990;
+  /* Right under crt-overlay (999999) */
   opacity: 1;
   transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
@@ -2398,18 +2556,21 @@ body::after {
 .login-key-icon {
   width: 48px;
   height: 48px;
-  background-image: url('../assets/items/Key.png'); /* Key.png or fallback */
+  background-image: url('../assets/items/Key.png');
+  /* Key.png or fallback */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   flex-shrink: 0;
 }
+
 /* If image fails, CSS fallback for Key Icon */
 .login-key-icon:empty {
   background-color: #dfdfdf;
   border: 1px dashed #808080;
   position: relative;
 }
+
 .login-key-icon:empty::before {
   content: "🔑";
   font-size: 28px;
@@ -2474,11 +2635,14 @@ body::after {
 }
 
 @keyframes connect-glow-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: inset 1.5px 1.5px 0px #fff, 0px 0px 4px rgba(0, 255, 102, 0.15);
     text-shadow: 1px 1px 0px #fff;
     transform: scale(1);
   }
+
   50% {
     box-shadow: inset 1.5px 1.5px 0px #fff, 0px 0px 14px rgba(0, 255, 102, 0.6);
     text-shadow: 0px 0px 3px var(--neon-green);
@@ -2522,26 +2686,30 @@ body::after {
 .connect-btn:active {
   border-color: var(--win-darkest) var(--win-light) var(--win-light) var(--win-darkest);
   box-shadow: none;
-  padding: 15px 27px 13px 29px; /* Depressed physical shift */
+  padding: 15px 27px 13px 29px;
+  /* Depressed physical shift */
   text-shadow: none;
   animation: none;
   transform: scale(0.98);
 }
 
 /* Desktop fade-in classes */
-.desktop, #taskbar {
+.desktop,
+#taskbar {
   opacity: 0;
   transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.desktop.fade-in, #taskbar.fade-in {
+.desktop.fade-in,
+#taskbar.fade-in {
   opacity: 1;
 }
 
 /* Game Simulator Chat Input Area Styling */
 .game-sim-input-area {
   position: absolute;
-  bottom: 75px; /* Shifted up to avoid overlap with download button */
+  bottom: 75px;
+  /* Shifted up to avoid overlap with download button */
   left: 50%;
   transform: translateX(-50%);
   width: 78%;
@@ -2559,7 +2727,8 @@ body::after {
 #game-sim-input {
   flex-grow: 1;
   padding: 6px 10px;
-  height: 36px; /* Matched height with send button */
+  height: 36px;
+  /* Matched height with send button */
   font-family: var(--font-pixel);
   font-size: 13px;
   border: 1.5px solid;
@@ -2576,10 +2745,13 @@ body::after {
 
 #game-sim-send-btn {
   font-family: var(--font-pixel);
-  font-size: 14px; /* Slightly enlarged font size */
+  font-size: 14px;
+  /* Slightly enlarged font size */
   font-weight: bold;
-  height: 36px; /* Enlarged height */
-  min-width: 90px; /* Enlarged width to keep text inside completely */
+  height: 36px;
+  /* Enlarged height */
+  min-width: 90px;
+  /* Enlarged width to keep text inside completely */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2600,21 +2772,27 @@ body::after {
 #game-sim-send-btn:active {
   border-color: var(--win-darkest) var(--win-light) var(--win-light) var(--win-darkest);
   box-shadow: none;
-  transform: translate(1px, 1px); /* Cleaner tactile shift without breaking flex center */
+  transform: translate(1px, 1px);
+  /* Cleaner tactile shift without breaking flex center */
 }
 
 /* Download Button Flash & Bounce Highlight Animation */
 @keyframes download-bounce-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) scale(1);
-    background-color: #ffd54f; /* Original gold */
+    background-color: #ffd54f;
+    /* Original gold */
     color: #111;
     border-color: var(--win-light) var(--win-darkest) var(--win-darkest) var(--win-light);
     box-shadow: 0px 0px 10px #ffd54f, inset 1px 1px 0px #fff;
   }
+
   50% {
     transform: translateY(-8px) scale(1.08);
-    background-color: #ff3b30; /* Vivid alarm red */
+    background-color: #ff3b30;
+    /* Vivid alarm red */
     color: #ffffff;
     border-color: #ff3b30;
     box-shadow: 0px 0px 25px #ff3b30, 0px 0px 35px #ff3b30;
@@ -2630,7 +2808,8 @@ body::after {
 /* Floating User Chat Message Bubble */
 .floating-user-text {
   position: absolute;
-  bottom: 120px; /* Spawn right above the input panel */
+  bottom: 120px;
+  /* Spawn right above the input panel */
   left: 50%;
   transform: translateX(-50%);
   background-color: #ffffff;
@@ -2653,15 +2832,18 @@ body::after {
     opacity: 0;
     transform: translateX(-50%) scale(0.85);
   }
+
   15% {
     bottom: 140px;
     opacity: 1;
     transform: translateX(-50%) scale(1);
   }
+
   80% {
     bottom: 200px;
     opacity: 1;
   }
+
   100% {
     bottom: 240px;
     opacity: 0;
@@ -2669,4 +2851,36 @@ body::after {
   }
 }
 
+/* PC Optimized Notice — shown on the boot/login screen */
+.pc-optimized-notice {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  color: #a8ffc8;
+  text-shadow:
+    0 0 6px #00ff88,
+    0 0 12px #00cc66;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: pc-notice-glow 2.4s ease-in-out infinite;
+  letter-spacing: 0.04em;
+}
 
+@keyframes pc-notice-glow {
+  0%, 100% {
+    opacity: 0.65;
+    text-shadow:
+      0 0 4px #00ff88,
+      0 0 10px #00cc66;
+  }
+  50% {
+    opacity: 1;
+    text-shadow:
+      0 0 8px #00ff88,
+      0 0 20px #00ff88,
+      0 0 32px #00cc66;
+  }
+}

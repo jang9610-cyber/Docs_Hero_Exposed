@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uie="UnityEngine.UIElements" xsi:schemaLocation="UnityEngine.UIElements http://schema.unity3d.com/ui/UXMLSchema">
+  <VisualElement name="Root">
+    <uie:Image name="BackgroundImage" image="Assets/Textures/default_texture.png" />
+
+    <!-- Background Image will be added here -->
+  </VisualElement>
+</UXML>
