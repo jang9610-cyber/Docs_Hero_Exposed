@@ -160,6 +160,39 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktop = document.getElementById('desktop');
   const taskTabsContainer = document.getElementById('task-tabs');
   let topZIndex = 100;
+  let currentStageMonsterRace = null;
+  let stageBubbleTimeout = null;
+
+  // Helper to safely display a single active speech bubble with transition (canceling previous timeouts)
+  function showStageBubble(text, durationMs) {
+    if (stageBubbleTimeout) {
+      clearTimeout(stageBubbleTimeout);
+      stageBubbleTimeout = null;
+    }
+
+    const targetParent = stage ? stage.parentElement : null;
+    if (!targetParent) return;
+
+    let bubble = document.querySelector('.bg-chat-bubble');
+    if (!bubble) {
+      bubble = document.createElement('div');
+      bubble.className = 'bg-chat-bubble';
+      targetParent.appendChild(bubble);
+    }
+
+    bubble.textContent = text;
+    bubble.classList.remove('visible');
+    void bubble.offsetWidth; // Force reflow
+    bubble.classList.add('visible');
+
+    // Auto fade-out & remove
+    stageBubbleTimeout = setTimeout(() => {
+      bubble.classList.remove('visible');
+      stageBubbleTimeout = setTimeout(() => {
+        bubble.remove();
+      }, 300);
+    }, durationMs);
+  }
 
   // Set window focus (bringing to front)
   function focusWindow(win) {
@@ -761,6 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Choose random monster
     const race = monsterRaces[Math.floor(Math.random() * monsterRaces.length)];
+    currentStageMonsterRace = race;
     
     // Create elements
     const charImg = document.createElement('img');
@@ -783,38 +817,25 @@ document.addEventListener('DOMContentLoaded', () => {
       charImg.classList.remove('walking');
       charImg.classList.add('breathe');
       
-      // Spawn Speech Bubble (Positioned next to the character)
-      const bubble = document.createElement('div');
-      bubble.className = 'bg-chat-bubble';
+      // Spawn Speech Bubble using unified safety helper (6.5s duration)
       const quotes = stageDialogues[race];
-      bubble.textContent = quotes[Math.floor(Math.random() * quotes.length)];
-      stage.parentElement.appendChild(bubble); // Append to bg-system (parent of stage) to render on top of BG1 foreground
+      showStageBubble(quotes[Math.floor(Math.random() * quotes.length)], 6500);
       
-      // Make visible with scale animation
+      // Let speech display for 6.5 seconds, then fade out and exit character
       setTimeout(() => {
-        bubble.classList.add('visible');
-      }, 50);
-      
-      // Let speech display for 4.5 seconds
-      setTimeout(() => {
-        bubble.classList.remove('visible');
+        charImg.classList.remove('breathe');
+        charImg.classList.add('walking');
+        charImg.style.left = '135%'; // Offscreen right
         
-        // Let bubble scale down, then exit character
+        // Complete walk out (3s)
         setTimeout(() => {
-          bubble.remove();
-          charImg.classList.remove('breathe');
-          charImg.classList.add('walking');
-          charImg.style.left = '135%'; // Offscreen right, far enough to fully hide the left side of the sprite
+          charImg.remove();
+          currentStageMonsterRace = null; // Reset
           
-          // Complete walk out
-          setTimeout(() => {
-            charImg.remove();
-            
-            // Wait 1 second and spawn the next monster!
-            setTimeout(spawnStageMonster, 1000);
-          }, 3000);
-        }, 300);
-      }, 4500);
+          // Wait 1.5 seconds and spawn the next monster!
+          setTimeout(spawnStageMonster, 1500);
+        }, 3000);
+      }, 6800); // 6.5s text display + 300ms transition buffer
       
     }, 3200);
   }
@@ -1263,4 +1284,84 @@ document.addEventListener('DOMContentLoaded', () => {
   window.openBossInstructionWindow = function() {
     openWindow('window-boss');
   };
+
+  // --- [11-6] Game Simulator Input & Download Highlight Logic ---
+  const gameSimInput = document.getElementById('game-sim-input');
+  const gameSimSendBtn = document.getElementById('game-sim-send-btn');
+  const gameDownloadBtn = document.querySelector('.game-download-btn');
+  let downloadHighlightTimeout = null;
+
+  const downloadGuideQuotes = {
+    Werewolf: "선배님! 킁킁... 여기는 그냥 구동화면(예시)입니다! 저랑 진짜 심문을 나누고 싶다면 우측 하단의 [빌드파일 다운로드] 버튼으로 직접 플레이해 보십시오! 멍!\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)",
+    Orc: "야, 신입! 여긴 그냥 배경(예시)이다! 나한테 직접 질문을 던지려면 저기 반짝이는 노란 버튼을 눌러서 진짜 게임을 받아가라고! 어이!\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)",
+    Goblin: "흥, 이 화면에 아무리 질문을 쳐봤자 AI 연동 안 돼 있다구! 진짜 내 사원증 뇌물을 확인하고 싶다면 우측 하단의 다운로드 캔을 뽑아가!\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)",
+    DarkElf: "보안 주임님, 이곳은 구동 연출 화면(Mockup)입니다. 실제 LLM 심문 검증 시나리오를 구동하시려면 우측 하단의 다운로드 버튼을 클릭해 빌드를 확보해 주세요.\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)",
+    Ghoul: "어어어... 여기... 가짜... 진짜... 고기... 플레이... 다운로드... 버튼... 눌러...\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)",
+    Vampire: "바보 같은 스켈레톤 같으니. 이 예시 창에서 날 심문할 수 있을 줄 알았나? 진짜 내 어둠의 대화를 원한다면 우측 하단의 버튼으로 본 게임을 받도록 해.\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)",
+    Lich: "전산망 연동 대기 모드다. 실제 LLM 추리 엔진과의 트랜잭션을 수립하려면 우측 하단에 노출된 보안 클라이언트 빌드를 즉시 다운로드해라.\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)"
+  };
+
+  function triggerDownloadHighlight() {
+    if (!gameDownloadBtn) return;
+    
+    // Backup user input text before clearing
+    const userText = gameSimInput ? gameSimInput.value.trim() : '';
+
+    // Play error buzz to signal mockup limitation
+    playSound('error');
+
+    // Add visual bouncing/flashing effect to download button
+    gameDownloadBtn.classList.add('highlight-active');
+    
+    if (downloadHighlightTimeout) clearTimeout(downloadHighlightTimeout);
+    downloadHighlightTimeout = setTimeout(() => {
+      gameDownloadBtn.classList.remove('highlight-active');
+    }, 8000); // Highlight now matches bubble duration (8 seconds)
+
+    // Spawn floating user bubble moving upwards
+    if (userText) {
+      const floatTextEl = document.createElement('div');
+      floatTextEl.className = 'floating-user-text';
+      floatTextEl.textContent = `💬 "${userText}"`;
+      
+      const gameWindowBody = document.querySelector('.game-window-body');
+      if (gameWindowBody) {
+        gameWindowBody.appendChild(floatTextEl);
+        
+        // Auto remove after animation completes
+        setTimeout(() => {
+          floatTextEl.remove();
+        }, 2500);
+      }
+    }
+
+    // Input text reset
+    if (gameSimInput) gameSimInput.value = '';
+
+    // Guide text selection (Wording changed to "우측 하단")
+    let guideText = "⚠️ [시스템 안내]: 이곳은 구동 예시 화면입니다. 진짜 AI NPC와의 심문 및 플레이를 진행하려면 우측 하단의 [빌드파일 다운로드] 버튼을 클릭해 다운로드받아 주십시오!\n\n(※ 답변을 받으시려면 빌드를 직접 다운받아 플레이하세요!)";
+    
+    if (currentStageMonsterRace && downloadGuideQuotes[currentStageMonsterRace]) {
+      guideText = downloadGuideQuotes[currentStageMonsterRace];
+    }
+
+    // Safely trigger speech bubble using unified single bubble controller (8s duration)
+    showStageBubble(guideText, 8000);
+  }
+
+  if (gameSimSendBtn) {
+    gameSimSendBtn.addEventListener('click', () => {
+      if (gameSimInput && gameSimInput.value.trim() !== '') {
+        triggerDownloadHighlight();
+      }
+    });
+  }
+
+  if (gameSimInput) {
+    gameSimInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && gameSimInput.value.trim() !== '') {
+        triggerDownloadHighlight();
+      }
+    });
+  }
 });
