@@ -2308,4 +2308,234 @@ body::after {
   padding: 8px 16px !important;
 }
 
+/* ==========================================================================
+   Mawang OS Intro Boot & Login Screen Styling
+   ========================================================================== */
+
+/* Main Boot Screen Overlay */
+.boot-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0b0c10; /* Dark sci-fi/retro base */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999990; /* Right under crt-overlay (999999) */
+  opacity: 1;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.boot-screen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Windows 95 Style Login Dialog */
+.login-dialog {
+  width: 440px;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: var(--win-light) var(--win-darkest) var(--win-darkest) var(--win-light);
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-sans);
+  padding: 3px;
+  box-sizing: border-box;
+}
+
+.login-title-bar {
+  background: linear-gradient(90deg, var(--win-blue-start), var(--win-blue-end));
+  color: var(--text-light);
+  padding: 4px 6px;
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-title-controls .win-close-dummy {
+  width: 16px;
+  height: 14px;
+  border: 1px solid;
+  border-color: var(--win-light) var(--win-darkest) var(--win-darkest) var(--win-light);
+  background-color: var(--win-gray);
+  position: relative;
+  cursor: not-allowed;
+}
+
+.login-title-controls .win-close-dummy::after {
+  content: "×";
+  position: absolute;
+  top: -2px;
+  left: 3px;
+  font-size: 11px;
+  color: #000;
+  font-weight: bold;
+}
+
+.login-body {
+  padding: 15px;
+}
+
+.login-icon-desc {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* Key Icon placeholder */
+.login-key-icon {
+  width: 48px;
+  height: 48px;
+  background-image: url('../assets/items/Key.png'); /* Key.png or fallback */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+}
+/* If image fails, CSS fallback for Key Icon */
+.login-key-icon:empty {
+  background-color: #dfdfdf;
+  border: 1px dashed #808080;
+  position: relative;
+}
+.login-key-icon:empty::before {
+  content: "🔑";
+  font-size: 28px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.login-instructions {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #000;
+}
+
+.login-welcome {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+/* Login inputs */
+.login-fields {
+  border: 1.5px solid;
+  border-color: var(--win-darkest) var(--win-light) var(--win-light) var(--win-darkest);
+  background-color: #dfdfdf;
+  padding: 12px;
+  margin-bottom: 15px;
+}
+
+.login-field-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.login-field-row:last-child {
+  margin-bottom: 0;
+}
+
+.login-field-row label {
+  width: 110px;
+  font-size: 12.5px;
+  color: #000;
+}
+
+.login-input {
+  flex-grow: 1;
+  padding: 4px 6px;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  border: 1.5px solid;
+  border-color: var(--win-dark) var(--win-light) var(--win-light) var(--win-dark);
+  background-color: #fff;
+  color: #555;
+  outline: none;
+}
+
+/* Big CONNECT button container & styles */
+.login-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes connect-glow-pulse {
+  0%, 100% {
+    box-shadow: inset 1.5px 1.5px 0px #fff, 0px 0px 4px rgba(0, 255, 102, 0.15);
+    text-shadow: 1px 1px 0px #fff;
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: inset 1.5px 1.5px 0px #fff, 0px 0px 14px rgba(0, 255, 102, 0.6);
+    text-shadow: 0px 0px 3px var(--neon-green);
+    transform: scale(1.015);
+  }
+}
+
+.connect-btn {
+  width: 100%;
+  font-family: var(--font-pixel);
+  font-size: 18px;
+  font-weight: bold;
+  padding: 14px 28px;
+  color: #000;
+  background-color: var(--win-gray);
+  border: 2px solid;
+  border-color: var(--win-light) var(--win-darkest) var(--win-darkest) var(--win-light);
+  box-shadow: inset 1.5px 1.5px 0px #fff;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease-in-out;
+  position: relative;
+  text-shadow: 1px 1px 0px #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: connect-glow-pulse 2.2s infinite ease-in-out;
+}
+
+.connect-btn:hover {
+  background-color: #dfdfdf;
+  border-color: var(--win-light) var(--win-darkest) var(--win-darkest) var(--win-light);
+  box-shadow: inset 1.5px 1.5px 0px #fff, 0px 0px 16px var(--neon-green);
+  color: #000;
+  text-shadow: 0px 0px 3px var(--neon-green);
+  animation: none;
+  transform: scale(1.02);
+}
+
+.connect-btn:active {
+  border-color: var(--win-darkest) var(--win-light) var(--win-light) var(--win-darkest);
+  box-shadow: none;
+  padding: 15px 27px 13px 29px; /* Depressed physical shift */
+  text-shadow: none;
+  animation: none;
+  transform: scale(0.98);
+}
+
+/* Desktop fade-in classes */
+.desktop, #taskbar {
+  opacity: 0;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.desktop.fade-in, #taskbar.fade-in {
+  opacity: 1;
+}
+
 

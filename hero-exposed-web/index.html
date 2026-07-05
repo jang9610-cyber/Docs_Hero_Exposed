@@ -31,6 +31,44 @@
   <!-- CRT Scanline Filter Effect -->
   <div class="crt-overlay"></div>
 
+  <!-- Mawang OS Boot/Login Screen -->
+  <div id="boot-screen" class="boot-screen">
+    <div class="login-dialog">
+      <div class="login-title-bar">
+        <span class="login-title">🔑 마왕 OS v1.00 - 전산망 보안 인증</span>
+        <div class="login-title-controls">
+          <button class="win-btn win-close-dummy" aria-label="닫기"></button>
+        </div>
+      </div>
+      <div class="login-body">
+        <div class="login-icon-desc">
+          <div class="login-key-icon"></div>
+          <div class="login-instructions">
+            <p class="login-welcome">마왕물산(MawangMulSan) 사내 보안 전산망입니다.</p>
+            <p>시스템에 로그인하여 데스크탑 사용 권한을 획득하십시오.</p>
+          </div>
+        </div>
+        
+        <div class="login-fields">
+          <div class="login-field-row">
+            <label for="login-username">사용자 이름(U):</label>
+            <input type="text" id="login-username" class="login-input" value="보안주임 장수영" readonly>
+          </div>
+          <div class="login-field-row">
+            <label for="login-password">비밀번호(P):</label>
+            <input type="password" id="login-password" class="login-input" value="••••••••" readonly>
+          </div>
+        </div>
+        
+        <div class="login-button-container">
+          <button id="connect-btn" class="connect-btn">
+            ⚡ 시스템 접속 (CONNECT)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Main Desktop Container -->
   <div class="desktop" id="desktop">
 

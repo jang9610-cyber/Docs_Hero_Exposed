@@ -5,6 +5,38 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   
+  // --- [0] Asset Preloading Engine (Background Caching) ---
+  const assetsToPreload = [
+    // Big Backgrounds (Crucial for first paint of desktop & game window)
+    "./assets/backgrounds/SettlementMonitorBG.png",
+    "./assets/backgrounds/Low_BG.png",
+    "./assets/backgrounds/BG1.png",
+    
+    // Normal Sprites (Required for initial renders of windows)
+    "./assets/characters/Superior/00_Normal.png",
+    "./assets/characters/Werewolf/00_Normal.png",
+    "./assets/characters/Orc/00_Normal.png",
+    "./assets/characters/Goblin/00_Normal.png",
+    "./assets/characters/DarkElf/00_Normal.png",
+    "./assets/characters/Ghoul/00_Normal.png",
+    "./assets/characters/Vampire/00_Normal.png",
+    "./assets/characters/Lich/00_Normal.png",
+    
+    // Additional Werewolf expressions (Essential for smooth simulator slider lag-free)
+    "./assets/characters/Werewolf/01_Angry.png",
+    "./assets/characters/Werewolf/02_Nervous.png"
+  ];
+
+  function preloadAssets(urls) {
+    urls.forEach(url => {
+      const img = new Image();
+      img.src = url; // Downloads and stores in browser image memory cache
+    });
+  }
+
+  // Fire preloading immediately so download starts while user is on the login/boot screen
+  preloadAssets(assetsToPreload);
+
   // --- [1] Web Audio API Synthesizer (Zero-dependency Retro Sound) ---
   let audioCtx = null;
 
@@ -21,6 +53,36 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('click', () => {
     initAudio();
   }, { once: true });
+
+  // --- [1-2] Mawang OS Login / Boot screen Logic ---
+  const bootScreen = document.getElementById('boot-screen');
+  const connectBtn = document.getElementById('connect-btn');
+  const desktopEl = document.getElementById('desktop');
+  const taskbarEl = document.getElementById('taskbar');
+
+  if (connectBtn && bootScreen) {
+    connectBtn.addEventListener('click', () => {
+      // 1. Initialize audio context securely
+      initAudio();
+      
+      // 2. Play boot chime
+      playSound('boot');
+      
+      // 3. Trigger fade transitions
+      bootScreen.classList.add('fade-out');
+      
+      if (desktopEl) desktopEl.classList.add('fade-in');
+      if (taskbarEl) taskbarEl.classList.add('fade-in');
+      
+      // Start cascading window animations as desktop fades in
+      startBootCascade();
+      
+      // 4. Remove boot screen entirely after transition
+      setTimeout(() => {
+        bootScreen.style.display = 'none';
+      }, 850);
+    });
+  }
 
   function playSound(type) {
     try {
@@ -72,6 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
         osc.start(now);
         osc.stop(now + 0.35);
+      }
+      else if (type === 'boot') {
+        // Cyberpunk / Retro 8-bit boot up chime (ascending chord: C4 - E4 - G4 - C5)
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(261.63, now); // C4
+        osc.frequency.setValueAtTime(329.63, now + 0.08); // E4
+        osc.frequency.setValueAtTime(392.00, now + 0.16); // G4
+        osc.frequency.setValueAtTime(523.25, now + 0.24); // C5
+        
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.linearRampToValueAtTime(0.12, now + 0.3);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+        
+        osc.start(now);
+        osc.stop(now + 0.5);
       }
     } catch (e) {
       console.warn("Audio Context playback failed or was blocked by browser autoplay policy.", e);
@@ -1162,27 +1239,25 @@ document.addEventListener('DOMContentLoaded', () => {
   updateSummaryGalleryDisplay();
 
   // --- [11-5] Sequential Boot Cascade Sequence ---
-  // Start cascading windows sequentially on page load:
-  // 1. window-boss (Immediate, 0s)
-  // 2. window-radio (0.5s delay)
-  // 3. window-game (1.0s delay)
-  // 4. window-summary (1.5s delay, focuses on top)
-  
-  setTimeout(() => {
-    openWindow('window-boss', true);
-  }, 100); // 100ms breathing room for loading sound references safely
-  
-  setTimeout(() => {
-    openWindow('window-radio');
-  }, 600);
-  
-  setTimeout(() => {
-    openWindow('window-game');
-  }, 1100);
-  
-  setTimeout(() => {
-    openWindow('window-summary');
-  }, 1600);
+  // Define cascading windows animation triggered AFTER connect action
+  function startBootCascade() {
+    // Wait for the desktop fade-in to establish (e.g., 450ms delay for the first window)
+    setTimeout(() => {
+      openWindow('window-boss', true);
+    }, 450);
+    
+    setTimeout(() => {
+      openWindow('window-radio');
+    }, 950);
+    
+    setTimeout(() => {
+      openWindow('window-game');
+    }, 1450);
+    
+    setTimeout(() => {
+      openWindow('window-summary');
+    }, 1950);
+  }
 
   // Global wrapper function for Werewolf Interrogation click event
   window.openBossInstructionWindow = function() {
