@@ -1392,4 +1392,214 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Re-run on every window resize for live responsiveness
   window.addEventListener('resize', resizeIconGrid);
+
+  // ============================================================
+  // [12] Guide Sidebar Panel
+  // ============================================================
+
+  const GUIDE_DATA = [
+    // ── 핵심 탐색 (권장 순서) ──────────────────────────────────
+    {
+      id: 'window-summary',
+      label: '★요약_포트폴리오.exe',
+      desc: '장수영 포트폴리오 원클릭 통합 요약 — 처음 보실 분은 여기부터!',
+      bonus: false
+    },
+    {
+      id: 'window-profile',
+      label: '보안주임_장수영.exe',
+      desc: '기획자 프로필, 담당 업무별 기여 비중, 이메일/GitHub 링크',
+      bonus: false
+    },
+    {
+      id: 'window-boss',
+      label: '사장실_특별지시.sys',
+      desc: '마왕물산 세계관 스토리와 Day별 용사 감별 지침 아코디언',
+      bonus: false
+    },
+    {
+      id: 'window-game',
+      label: '마왕물산_보안데스크.exe',
+      desc: 'Unity AI 추리 게임 실제 구동 시뮬레이터 — 빌드 다운로드 포함',
+      bonus: false
+    },
+    {
+      id: 'window-portfolio-folder',
+      label: '보안_작업_일지',
+      desc: 'PM·기획·AI 프롬프트·디자인·사운드 상세 기획 문서 4종',
+      bonus: false
+    },
+    {
+      id: 'window-interrogation',
+      label: '인턴_웨어울프_심문기.exe',
+      desc: '6레이어 AI 프롬프트 및 감정 시스템 인터랙티브 슬라이더 체험',
+      bonus: false
+    },
+    {
+      id: 'window-vending',
+      label: '마왕물산_기획_자판기.exe',
+      desc: '8종 기획 산출물 GitHub 문서 자판기 — 캔을 뽑으면 새 탭 열림',
+      bonus: false
+    },
+    // ── 보너스 콘텐츠 ──────────────────────────────────────────
+    {
+      id: 'window-gallery',
+      label: '사내_직원도감.exe',
+      desc: '7종 종족 캐릭터 원화 및 3단계 감정 표정 갤러리',
+      bonus: true
+    },
+    {
+      id: 'window-media-player',
+      label: '최종_시연영상.mp4',
+      desc: '최종 빌드 플레이 시연 유튜브 영상 (약 2분)',
+      bonus: true
+    },
+    {
+      id: 'window-media-player-figma',
+      label: '기획_피그마_시연영상.mp4',
+      desc: 'Figma UI/UX 기획 연출 시연 영상',
+      bonus: true
+    },
+    {
+      id: 'window-presentation',
+      label: '최종_발표자료.pdf',
+      desc: '프로젝트 최종 발표 슬라이드 전체 (전체화면 PDF 뷰어)',
+      bonus: true
+    },
+    {
+      id: 'window-radio',
+      label: '사내_라디오.exe',
+      desc: '직접 믹싱·작곡한 Lo-Fi BGM 12트랙 사내 라디오 플레이어',
+      bonus: true
+    },
+  ];
+
+  const GUIDE_MAIN_COUNT = GUIDE_DATA.filter(d => !d.bonus).length; // 7
+  const guideVisited = new Set();
+
+  const guidePanelEl   = document.getElementById('guide-panel');
+  const guideTabBtnEl  = document.getElementById('guide-tab-btn');
+  const guideCloseBtnEl = document.getElementById('guide-close-btn');
+  const guidePanelBody = document.getElementById('guide-panel-body');
+
+  // ── Render guide items ─────────────────────────────────────
+  function renderGuide() {
+    if (!guidePanelBody) return;
+
+    const mainItems  = GUIDE_DATA.filter(d => !d.bonus);
+    const bonusItems = GUIDE_DATA.filter(d =>  d.bonus);
+    const visitedMain = mainItems.filter(d => guideVisited.has(d.id)).length;
+    const pct = GUIDE_MAIN_COUNT > 0
+      ? Math.round((visitedMain / GUIDE_MAIN_COUNT) * 100)
+      : 0;
+
+    let html = '';
+
+    // Intro banner
+    html += `
+      <p class="guide-intro">
+        💡 파일명을 클릭하면 해당 창이 열립니다.<br>
+        아래 순서로 탐색하면 포트폴리오를<br>빠르게 파악할 수 있습니다.
+      </p>`;
+
+    // Progress bar
+    html += `
+      <div class="guide-progress-wrap">
+        <span class="guide-progress-label">핵심 ${visitedMain}/${GUIDE_MAIN_COUNT}</span>
+        <div class="guide-progress-track">
+          <div class="guide-progress-fill" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+
+    // ─ Main section ─
+    html += `<div class="guide-section-label">📌 핵심 탐색 (권장 순서)</div>`;
+    mainItems.forEach((item, i) => {
+      const checked = guideVisited.has(item.id);
+      html += `
+        <div class="guide-item${checked ? ' visited' : ''}" data-guide-target="${item.id}">
+          <div class="guide-check">${checked ? '✓' : ''}</div>
+          <div class="guide-item-content">
+            <span class="guide-item-name">${i + 1}. ${item.label}</span>
+            <span class="guide-item-desc">${item.desc}</span>
+          </div>
+        </div>`;
+    });
+
+    // ─ Bonus section ─
+    html += `<div class="guide-section-label bonus">🎁 보너스 콘텐츠</div>`;
+    bonusItems.forEach(item => {
+      const checked = guideVisited.has(item.id);
+      html += `
+        <div class="guide-item${checked ? ' visited' : ''}" data-guide-target="${item.id}">
+          <div class="guide-check">${checked ? '✓' : ''}</div>
+          <div class="guide-item-content">
+            <span class="guide-item-name">${item.label}</span>
+            <span class="guide-item-desc">${item.desc}</span>
+          </div>
+        </div>`;
+    });
+
+    guidePanelBody.innerHTML = html;
+
+    // Attach click → openWindow for each item
+    guidePanelBody.querySelectorAll('.guide-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const targetId = el.dataset.guideTarget;
+        if (targetId) openWindow(targetId); // reuse existing openWindow()
+      });
+    });
+  }
+
+  // ── Mark a window as visited & re-render ──────────────────
+  function guideMarkVisited(windowId) {
+    if (guideVisited.has(windowId)) return;
+    guideVisited.add(windowId);
+    renderGuide();
+  }
+
+  // ── Observe style changes on every guide window ────────────
+  // Catches visits from icons, start menu, folder items, etc.
+  GUIDE_DATA.forEach(item => {
+    const winEl = document.getElementById(item.id);
+    if (!winEl) return;
+
+    const obs = new MutationObserver(() => {
+      const d = winEl.style.display;
+      if (d && d !== 'none') {
+        guideMarkVisited(item.id);
+      }
+    });
+    obs.observe(winEl, { attributes: true, attributeFilter: ['style'] });
+  });
+
+  // ── Panel open / close ─────────────────────────────────────
+  function openGuidePanel() {
+    if (!guidePanelEl) return;
+    guidePanelEl.classList.add('open');
+    if (guideTabBtnEl) guideTabBtnEl.classList.add('hidden');
+  }
+
+  function closeGuidePanel() {
+    if (!guidePanelEl) return;
+    guidePanelEl.classList.remove('open');
+    if (guideTabBtnEl) guideTabBtnEl.classList.remove('hidden');
+  }
+
+  if (guideTabBtnEl)  guideTabBtnEl.addEventListener('click',  openGuidePanel);
+  if (guideCloseBtnEl) guideCloseBtnEl.addEventListener('click', closeGuidePanel);
+
+  // ── Initial render ─────────────────────────────────────────
+  renderGuide();
+
+  // Check windows already visible after boot cascade (e.g. window-boss auto-opens)
+  setTimeout(() => {
+    GUIDE_DATA.forEach(item => {
+      const winEl = document.getElementById(item.id);
+      if (winEl && winEl.style.display && winEl.style.display !== 'none') {
+        guideMarkVisited(item.id);
+      }
+    });
+  }, 1500);
+
 });
+

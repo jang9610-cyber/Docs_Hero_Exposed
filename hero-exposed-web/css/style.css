@@ -2884,3 +2884,404 @@ body::after {
       0 0 32px #00cc66;
   }
 }
+
+/* ==========================================================================
+   GUIDE PANEL — Right-side fixed sidebar (Retro OS style)
+   ========================================================================== */
+
+/* --- Tab Toggle Button (always visible on right edge) --- */
+.guide-tab-btn {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9997;
+  background: linear-gradient(180deg, #ffe44d 0%, #ff9200 100%);
+  border: 2.5px solid #7a3800;
+  border-right: none;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.65),
+    -4px 4px 0 rgba(0,0,0,0.3),
+    0 0 14px rgba(255,155,0,0.6);
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 22px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  color: #1a0800;
+  font-weight: bold;
+  border-radius: 8px 0 0 8px;
+  transition: opacity 0.2s, right 0.25s ease, transform 0.15s ease, box-shadow 0.15s ease;
+  min-width: 50px;
+  animation: guide-tab-pulse 2.2s ease-in-out infinite;
+}
+
+.guide-tab-btn:hover {
+  background: linear-gradient(180deg, #fff59d 0%, #ffb300 100%);
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.85),
+    -4px 4px 0 rgba(0,0,0,0.3),
+    0 0 28px rgba(255,185,0,0.95);
+  transform: translateY(-50%) scaleX(1.1);
+  animation: none;
+}
+
+.guide-tab-btn:active {
+  box-shadow: inset 2px 2px 0 rgba(0,0,0,0.25);
+  transform: translateY(-50%) scaleX(0.96);
+}
+
+.guide-tab-btn.hidden {
+  opacity: 0;
+  pointer-events: none;
+  right: -62px;
+}
+
+.guide-tab-icon {
+  font-size: 22px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+.guide-tab-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: 12px;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.guide-tab-arrow {
+  font-size: 15px;
+  font-weight: 900;
+  color: #1a0800;
+  animation: guide-arrow-bounce 0.75s ease-in-out infinite alternate;
+}
+
+@keyframes guide-tab-pulse {
+  0%, 100% {
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.65),
+      -4px 4px 0 rgba(0,0,0,0.3),
+      0 0 10px rgba(255,155,0,0.45);
+  }
+  50% {
+    box-shadow:
+      inset 1px 1px 0 rgba(255,255,255,0.65),
+      -4px 4px 0 rgba(0,0,0,0.3),
+      0 0 28px rgba(255,165,0,1),
+      -8px 0 20px rgba(255,130,0,0.55);
+  }
+}
+
+@keyframes guide-arrow-bounce {
+  from { transform: translateX(0px);   opacity: 0.7; }
+  to   { transform: translateX(-5px);  opacity: 1;   }
+}
+
+/* --- Guide Panel --- */
+.guide-panel {
+  position: fixed;
+  right: -310px;
+  top: 10px;
+  bottom: 50px;
+  width: 300px;
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  background: var(--win-gray);
+  border: 2px solid var(--win-darkest);
+  border-right: none;
+  box-shadow: inset 1px 1px 0 #fff, -4px 4px 0 rgba(0,0,0,0.3);
+  transition: right 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-family: var(--font-pixel);
+  font-size: 11px;
+}
+
+.guide-panel.open {
+  right: 0;
+}
+
+/* --- Panel Header (retro title bar) --- */
+.guide-panel-header {
+  background: linear-gradient(90deg, var(--win-blue-start) 0%, var(--win-blue-end) 100%);
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  min-height: 24px;
+  border-bottom: 1px solid var(--win-darkest);
+}
+
+.guide-panel-title {
+  color: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.guide-close-btn {
+  background: var(--win-gray);
+  border: 1.5px solid;
+  border-color: #fff var(--win-darkest) var(--win-darkest) #fff;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.8);
+  width: 16px;
+  height: 14px;
+  min-width: 16px;
+  font-size: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-pixel);
+  color: #000;
+  padding: 0;
+  line-height: 1;
+}
+
+.guide-close-btn:active {
+  border-color: var(--win-darkest) #fff #fff var(--win-darkest);
+  box-shadow: none;
+}
+
+/* --- Panel Body (Scrollable content area) --- */
+.guide-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 7px 6px 10px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: var(--win-gray);
+}
+
+/* Retro scrollbar */
+.guide-panel-body::-webkit-scrollbar {
+  width: 14px;
+}
+
+.guide-panel-body::-webkit-scrollbar-track {
+  background: var(--win-gray);
+  border: 1px inset var(--win-dark);
+}
+
+.guide-panel-body::-webkit-scrollbar-thumb {
+  background: var(--win-gray);
+  border: 1px solid;
+  border-color: #fff var(--win-darkest) var(--win-darkest) #fff;
+}
+
+/* --- Intro Banner --- */
+.guide-intro {
+  font-size: 11.5px;
+  color: #333;
+  background: #fffde7;
+  border: 1px solid #c8a000;
+  padding: 5px 7px;
+  line-height: 1.6;
+  margin-bottom: 2px;
+  font-family: var(--font-sans);
+}
+
+/* --- Section Label --- */
+.guide-section-label {
+  font-weight: bold;
+  font-size: 11px;
+  color: #fff;
+  background: var(--win-blue-start);
+  padding: 3px 7px;
+  margin-top: 5px;
+  border: 1px solid var(--win-darkest);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.guide-section-label.bonus {
+  background: #4a2060;
+}
+
+/* --- Progress Bar --- */
+.guide-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 3px 0 1px 0;
+}
+
+.guide-progress-label {
+  font-size: 11px;
+  white-space: nowrap;
+  color: #333;
+  min-width: 52px;
+}
+
+.guide-progress-track {
+  flex: 1;
+  height: 11px;
+  background: #808080;
+  border: 1px solid;
+  border-color: var(--win-darkest) #fff #fff var(--win-darkest);
+  overflow: hidden;
+}
+
+.guide-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #005000, #00a000);
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+/* --- Guide Item --- */
+.guide-item {
+  background: #fff;
+  border: 1px solid;
+  border-color: var(--win-darkest) #fff #fff var(--win-darkest);
+  padding: 5px 6px 5px 5px;
+  cursor: pointer;
+  display: flex;
+  gap: 5px;
+  align-items: flex-start;
+  transition: background 0.1s;
+  position: relative;
+}
+
+.guide-item:hover {
+  background: #ddeeff;
+}
+
+.guide-item:hover .guide-item-name {
+  text-decoration: underline;
+}
+
+.guide-item.visited {
+  background: #f0fff4;
+}
+
+.guide-item.visited .guide-item-name {
+  color: #005000;
+}
+
+/* Checkbox indicator */
+.guide-check {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--win-dark);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #007000;
+  font-weight: 900;
+  box-shadow: inset 1px 1px 0 rgba(0,0,0,0.08);
+  line-height: 1;
+}
+
+.guide-item.visited .guide-check {
+  background: #d4f5d4;
+  border-color: #006000;
+}
+
+/* Item text content */
+.guide-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.guide-item-name {
+  font-weight: bold;
+  font-size: 11.5px;
+  color: #000080;
+  display: block;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.guide-item-desc {
+  font-size: 11px;
+  color: #555;
+  line-height: 1.45;
+  font-family: var(--font-sans);
+  display: block;
+}
+
+/* ==========================================================================
+   ICON NUMBER BADGE — 핵심 탐색 순서 배지 (1~7)
+   ========================================================================== */
+
+/* Ensure relative positioning for badge placement */
+.desktop-icon {
+  position: relative;
+}
+
+.icon-num-badge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background: linear-gradient(135deg, #ff3b30 0%, #c40000 100%);
+  color: #fff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 13px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-pixel);
+  border: 2.5px solid #fff;
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.65),
+    0 0 0 1.5px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+  line-height: 1;
+  pointer-events: none;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   DOC-TABLE — 문서 창 내부 표 스타일
+   ========================================================================== */
+
+.doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 6px 0 12px 0;
+  font-size: 11px;
+  font-family: var(--font-sans);
+}
+
+.doc-table th {
+  background: var(--win-blue-start);
+  color: #fff;
+  font-weight: bold;
+  padding: 5px 8px;
+  text-align: left;
+  border: 1px solid var(--win-darkest);
+  font-size: 11px;
+}
+
+.doc-table td {
+  padding: 4px 8px;
+  border: 1px solid #bbb;
+  background: #fff;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.doc-table tr:nth-child(even) td {
+  background: #f0f4ff;
+}
+
+.doc-table tr:hover td {
+  background: #ddeeff;
+}
