@@ -37,6 +37,27 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fire preloading immediately so download starts while user is on the login/boot screen
   preloadAssets(assetsToPreload);
 
+  // --- [0-1] YouTube Facade: 클릭 시 실제 iframe으로 교체 ---
+  // 페이지 로드 시 유튜브 서버 접속을 차단하고 썸네일만 표시.
+  // 사용자가 클릭할 때 autoplay iframe을 동적 삽입.
+  document.querySelectorAll('.yt-facade').forEach(facade => {
+    facade.addEventListener('click', function () {
+      const videoId = this.dataset.videoid;
+      const playerId = this.dataset.playerId;
+      const iframe = document.createElement('iframe');
+      iframe.width = '100%';
+      iframe.height = '100%';
+      iframe.style.cssText = 'display:block; border:none;';
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      iframe.title = 'YouTube video player';
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      if (playerId) iframe.id = playerId;
+      this.replaceWith(iframe);
+    });
+  });
+
   // --- [1] Web Audio API Synthesizer (Zero-dependency Retro Sound) ---
   let audioCtx = null;
 
@@ -1426,7 +1447,7 @@ document.addEventListener('DOMContentLoaded', () => {
     {
       id: 'window-portfolio-folder',
       label: '보안_작업_일지',
-      desc: 'PM·기획·AI 프롬프트·디자인·사운드 상세 기획 문서 4종',
+      desc: 'PM·기획·AI 프롬프트·디자인·사운드 상세 기획 문서 5종',
       bonus: false
     },
     {

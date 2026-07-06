@@ -31,6 +31,19 @@
   -moz-osx-font-smoothing: none;
 }
 
+/* 창 내부 p 태그 줄바꿈 개선 — 단어 경계에서만 줄바꿈, 문단 간격 확보 */
+.window-body p,
+.scrollable p,
+.profile-desc,
+.gallery-monster-desc,
+.accomplishment-grid p {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.65;
+  margin-bottom: 6px;
+}
+
+
 body,
 html {
   width: 100%;

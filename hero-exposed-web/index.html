@@ -389,8 +389,10 @@
             <fieldset class="win-fieldset">
               <legend>소개 및 가치관 (Values)</legend>
               <p class="profile-desc">
-                "독창적인 블랙코미디 OS 보안주임 컨셉의 첫 기획 아이디어를 단독 제안하고 팀원들을 적극 설득하여 프로젝트의 핵심 방향성을 정립했습니다. 체제 변화 속에서도 흔들림 없이 전체 일정을
-                조율해 완주로 이끌었으며, 개발 선행 기획서 작성으로 소통 비용을 낮추고 AI 기술적 제약을 기획적 가드레일로 완화해 낸 실무 지향형 밸런스 기획자입니다."
+                "독창적인 블랙코미디 OS 보안주임 컨셉의 첫 기획 아이디어를 단독 제안하고 팀원들을 적극 설득하여 프로젝트의 핵심 방향성을 정립했습니다.<br><br>
+                체제 변화 속에서도 흔들림 없이 전체 일정을 조율해 완주로 이끌었으며,<br>
+                개발 선행 기획서 작성으로 소통 비용을 낮추고<br>
+                AI 기술적 제약을 기획적 가드레일로 완화해 낸 실무 지향형 밸런스 기획자입니다."
               </p>
             </fieldset>
           </div>
@@ -603,7 +605,10 @@
         <hr>
 
         <h4>1. Figma 프로토타입으로 팀 설득</h4>
-        <p>팀장 체제 당시, 보안 데스크 컨셉과 독창적인 게임 연출을 개발진에 증명하기 위해 <b>직접 동작하는 Figma 프로토타입</b>을 제작·발표하였습니다. 구두 설득이 아닌 실제 인터랙션 시연을 통해 팀원들을 설득하고 프로젝트 전체 비주얼 방향성을 수립했습니다.</p>
+        <p>팀장 체제 당시, 보안 데스크 컨셉과 독창적인 게임 연출을 개발진에 증명하기 위해
+        <b>직접 동작하는 Figma 프로토타입</b>을 제작·발표하였습니다.<br><br>
+        구두 설득이 아닌 실제 인터랙션 시연을 통해 팀원들을 설득하고<br>
+        프로젝트 전체 비주얼 방향성을 수립했습니다.</p>
 
         <h4>2. 아트 생산 수치</h4>
         <table class="doc-table">
@@ -620,7 +625,9 @@
 [스트레스 100+]  Angry   → 분노/본색 표정 스프라이트<br>
 ※ 이벤트 버스를 통해 스프라이트 렌더러와 실시간 연동
         </code></p>
-        <p>7종 종족 각각의 개성과 블랙코미디 다크 판타지 톤앤매너에 맞춰 표정이 설계되어, 위장 용사가 스트레스 Max 상황에서 기사·성직자 특유의 본성이 표정으로 드러나도록 기획했습니다.</p>
+        <p>7종 종족 각각의 개성과 블랙코미디 다크 판타지 톤앤매너에 맞춰 표정이 설계되어,<br>
+        위장 용사가 스트레스 Max 상황에서<br>
+        기사·성직자 특유의 본성이 표정으로 드러나도록 기획했습니다.</p>
 
         <h4>4. 출입허가증 팝업 UI 기획</h4>
         <p>신분증 정보량이 많아 유저 피로감이 발생하는 문제를 '출입허가증 팝업' UI로 해결. Figma로 인터랙션 흐름을 정리하여 <b>개발 구현 부하를 최소화</b>하면서 UX를 개선했습니다.</p>
@@ -661,19 +668,23 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
 [Layer 6] 감정 상태 실시간 주입 (Normal/Flustered/Angry)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OpenAI API (gpt-4o-mini) 투입
+[개발 당시] Helpy Pro API (엘리스 학원 제공)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+[현재] Gemini API (OpenAI 호환 인터페이스로 교체)
         </code></p>
 
         <h4>2. 담당 프롬프트 설계 범위</h4>
         <table class="doc-table">
           <tr><th>분류</th><th>항목</th></tr>
-          <tr><td>종족 페르소나</td><td>오크·슬라임·뱀파이어·구울·리치·다크엘프·웨어울프 (7종)</td></tr>
+          <tr><td>종족 페르소나</td><td>오크·고블린·뱀파이어·구울·리치·다크엘프·웨어울프 (7종)</td></tr>
           <tr><td>NPC 타입 규칙</td><td>일반직원·위장용사·밀수꾼·감사관 (4종)</td></tr>
           <tr><td>공통 가드레일</td><td>RACE DEFAULT, TURN_REMINDER, Regex 필터, No Strings 정책</td></tr>
         </table>
 
         <h4>3. Persona Inertia 극복 — 상태 엔진 격리</h4>
-        <p>대화 6턴 이상 진행 시 NPC가 행동 수칙을 망각하는 고질적 문제를 발견. 행동 수칙 지침을 <b>별도 모듈로 격리하는 '상태 엔진 격리(Localization)' 기법</b>을 적용하여 마지막 턴까지 완벽한 페르소나를 유지시켰습니다.</p>
+        <p>대화 6턴 이상 진행 시 NPC가 행동 수칙을 망각하는 고질적 문제를 발견.<br>
+        행동 수칙 지침을 <b>별도 모듈로 격리하는 '상태 엔진 격리(Localization)' 기법</b>을 적용하여<br>
+        마지막 턴까지 완벽한 페르소나를 유지시켰습니다.</p>
 
         <h4>4. 4중 탈옥 가드레일 구조</h4>
         <table class="doc-table">
@@ -689,8 +700,8 @@
 
         <h4>6. 관련 기획 문서</h4>
         <p>
-          - <a href="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EC%A1%B0%EB%A6%BD_%EC%97%94%EC%A7%84_%EB%AA%85%EC%84%B8.md" target="_blank">📄 프롬프트 조립 엔진 명세</a><br>
-          - <a href="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%EA%B3%B5%ED%86%B5_%EA%B7%9C%EC%B9%99_%EB%AA%85%EC%84%B8.md" target="_blank">📄 공통 규칙 명세 (RACE DEFAULT 전문)</a>
+          - <a href="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EC%A1%B0%EB%A6%BD_%EC%97%94%EC%A7%84_%EB%AA%85%EC%84%B8.md" target="_blank">📄 프롬프트 조립 엔진 명세</a><br>
+          - <a href="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%EA%B3%B5%ED%86%B5_%EA%B7%9C%EC%B9%99_%EB%AA%85%EC%84%B8.md" target="_blank">📄 공통 규칙 명세 (RACE DEFAULT 전문)</a>
         </p>
       </div>
     </div>
@@ -710,7 +721,7 @@
         <hr>
 
         <h4>1. 오디오 톤앤매너 수립</h4>
-        <p>블랙코미디 대기업이라는 세계관에 맞춰 <b>퇴근·야근을 테마로 한 Lo-Fi & Futurebass</b> 톤앤매너를 수립. AI 소스의 조악한 품질을 직접 EQ(이퀄라이징) 및 Mixing 후가공하여 인게임에 커밋했습니다.</p>
+        <p>블랙코미디 대기업이라는 세계관에 맞춰 <b>퇴근·야근을 테마로 한 Lo-Fi & Futurebass</b> 톤앤매너를 수립. 오리지널 멜로디를 직접 작곡한 후 <b>AI로 리소스를 추출하고 EQ · Mixing 후가공</b>하여 게임 오디오 리소스를 완성함과 동시에, 완성된 트랙을 레퍼런스 삼아 AI로 신규곡을 생성하는 방식으로 Lo-Fi BGM 12트랙과 엔딩 테마 4곡을 제작·커밋하여 프로젝트 완성도를 끌어올렸습니다.</p>
 
         <h4>2. 씬별 BGM 배치 (12트랙)</h4>
         <table class="doc-table">
@@ -880,7 +891,7 @@
 
               <!-- Link Buttons to verify Planning logic -->
               <div class="sim-planning-links" style="margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <a href="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EC%A1%B0%EB%A6%BD_%EC%97%94%EC%A7%84_%EB%AA%85%EC%84%B8.md"
+                <a href="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EC%A1%B0%EB%A6%BD_%EC%97%94%EC%A7%84_%EB%AA%85%EC%84%B8.md"
                   target="_blank" class="win-btn"
                   style="flex: 1; text-align: center; padding: 6px; font-weight: bold; text-decoration: none; color: black; display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 11px; box-shadow: inset 1px 1px 0px #fff, 1.5px 1.5px 0px #000; border: 1px solid #7f7f7f; background: silver;">
                   📖 프롬프트 조립 엔진 기획서 보기
@@ -932,7 +943,7 @@
 
           <!-- Item 2: Prompt -->
           <div class="shop-item"
-            data-link="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%ED%94%84%EB%A1%AC%ED%94%84%ED%8A%B8_%EC%A1%B0%EB%A6%BD_%EC%97%94%EC%A7%84_%EB%AA%85%EC%84%B8.md"
+            data-link="https://github.com/jang9610-cyber/Docs_Hero_Exposed/blob/main/00.%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8_%ED%86%B5%ED%95%A9_%EB%AC%B8%EC%84%9C/01.%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EA%B8%B0%ED%9A%8D/%ED%94%84%EB%A1%9C%ED%94%84%ED%8A%B8_%EC%A1%B0%EB%A6%BD_%EC%97%94%EC%A7%84_%EB%AA%85%EC%84%B8.md"
             data-name="01.프롬프트_조립_명세">
             <div class="doc-can-img can-blue"></div>
             <div class="item-details">
@@ -1040,10 +1051,24 @@
       <div class="window-body media-player-body" style="height: 100%; display: flex; flex-direction: column;">
         <!-- Embedded YouTube Video Player -->
         <div class="video-container" style="height: 400px; flex-shrink: 0;">
-          <iframe id="cctv-player" width="100%" height="400"
-            src="https://www.youtube.com/embed/X6qXc4WS8Bk?enablejsapi=1" title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+          <!-- YouTube Facade: 클릭 시에만 iframe 삽입 -->
+          <div class="yt-facade" data-videoid="X6qXc4WS8Bk" data-player-id="cctv-player"
+            style="position:relative; width:100%; height:400px; cursor:pointer; background:#000; overflow:hidden;">
+            <img src="https://img.youtube.com/vi/X6qXc4WS8Bk/hqdefault.jpg"
+              alt="최종 시연영상 썸네일"
+              style="width:100%; height:100%; object-fit:cover; display:block; opacity:0.85;" loading="lazy">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+              width:64px; height:44px; background:#ff0000; border-radius:8px; display:flex;
+              align-items:center; justify-content:center; box-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+              <div style="width:0; height:0; border-top:11px solid transparent;
+                border-bottom:11px solid transparent; border-left:20px solid #fff; margin-left:4px;"></div>
+            </div>
+            <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+              color:#fff; font-size:11px; font-family:sans-serif; text-shadow:0 1px 3px #000;
+              background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:3px; white-space:nowrap;">
+              클릭하면 재생됩니다
+            </div>
+          </div>
         </div>
         <!-- Fallback Link for file:// protocol local debugging -->
         <div class="cctv-fallback-link">
@@ -1095,10 +1120,24 @@
       <div class="window-body media-player-body" style="height: 100%; display: flex; flex-direction: column;">
         <!-- Embedded YouTube Video Player -->
         <div class="video-container" style="height: 400px; flex-shrink: 0;">
-          <iframe id="figma-player" width="100%" height="400"
-            src="https://www.youtube.com/embed/s4VClI4maBk?enablejsapi=1" title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen></iframe>
+          <!-- YouTube Facade -->
+          <div class="yt-facade" data-videoid="s4VClI4maBk" data-player-id="figma-player"
+            style="position:relative; width:100%; height:400px; cursor:pointer; background:#000; overflow:hidden;">
+            <img src="https://img.youtube.com/vi/s4VClI4maBk/hqdefault.jpg"
+              alt="피그마 시연영상 썸네일"
+              style="width:100%; height:100%; object-fit:cover; display:block; opacity:0.85;" loading="lazy">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+              width:64px; height:44px; background:#ff0000; border-radius:8px; display:flex;
+              align-items:center; justify-content:center; box-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+              <div style="width:0; height:0; border-top:11px solid transparent;
+                border-bottom:11px solid transparent; border-left:20px solid #fff; margin-left:4px;"></div>
+            </div>
+            <div style="position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+              color:#fff; font-size:11px; font-family:sans-serif; text-shadow:0 1px 3px #000;
+              background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:3px; white-space:nowrap;">
+              클릭하면 재생됩니다
+            </div>
+          </div>
         </div>
         <!-- Fallback Link for file:// protocol local debugging -->
         <div class="cctv-fallback-link">
@@ -1181,7 +1220,10 @@
                 <fieldset class="win-fieldset gallery-fieldset">
                   <legend>업무 패턴 및 프롬프트 특징</legend>
                   <p class="gallery-monster-desc" id="gallery-monster-desc">
-                    의욕은 200%이나 실수는 300%인 신입사원. 개과 동물의 킁킁거리는 호흡음이 텍스트에 포함되며, 칭찬이나 고기 이야기에 과하게 기뻐합니다. 스트레스 유발 시 이빨을 드러내지만
+                    의욕은 200%이나 실수는 300%인 신입사원.<br>
+                    개과 동물의 킁킁거리는 호흡음이 텍스트에 포함되며,<br>
+                    칭찬이나 고기 이야기에 과하게 기뻐합니다.<br><br>
+                    스트레스 유발 시 이빨을 드러내지만<br>
                     야근 울분을 토로하는 짠한 을의 입장을 표현합니다.
                   </p>
                 </fieldset>
@@ -1325,9 +1367,11 @@
                   <span
                     style="font-weight: bold; color: #00796b; font-size: 12px; display: block; margin-bottom: 5px;">🛠
                     1. 코어 기획 제안 및 2인 체제 리더십 (PM)</span>
-                  <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.5;">
-                    레퍼런스 게임인 "페이퍼 플리즈", "내 이웃이 아니야"에서 착안한 <b>'마왕군 출입국 심문관' 컨셉 및 4단계 코어 루프(심문-판정-정산-상점)를 단독
-                      제안·정립</b>했습니다. 팀 리더 이탈 이후 통합 PM을 겸임하여 Notion 협업 허브 구축, 마일스톤 관리 및 최종 배포 일정을 성공적으로 주도했습니다.
+                  <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.6;">
+                    레퍼런스 게임인 "페이퍼 플리즈", "내 이웃이 아니야"에서 착안한<br>
+                    <b>'마왕군 출입국 심문관' 컨셉 및 4단계 코어 루프(심문-판정-정산-상점)를 단독 제안·정립</b>했습니다.<br><br>
+                    팀 리더 이탈 이후 통합 PM을 겸임하여<br>
+                    Notion 협업 허브 구축, 마일스톤 관리 및 최종 배포 일정을 성공적으로 주도했습니다.
                   </p>
                 </div>
 
@@ -1336,9 +1380,12 @@
                   <span
                     style="font-weight: bold; color: #0288d1; font-size: 12px; display: block; margin-bottom: 5px;">💬
                     2. 페르소나 관성을 극복한 LLM 프롬프트 설계 (AI System)</span>
-                  <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.5;">
-                    AI 용사의 신분 은폐 우회 공격을 차단하는 프롬프트 가드레일을 구축했습니다. 특히 LLM 대화의 일관성을 저해하는 <b>'페르소나 관성(Persona Inertia) 현상'을
-                      보완하기 위해 '상태 엔진 격리(Localization) 방안'을 기획·적용</b>하여 대화의 안정성을 개선했습니다.
+                  <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.6;">
+                    AI 용사의 신분 은폐 우회 공격을 차단하는 프롬프트 가드레일을 구축했습니다.<br><br>
+                    특히 LLM 대화의 일관성을 저해하는<br>
+                    <b>'페르소나 관성(Persona Inertia) 현상'을 보완하기 위해<br>
+                    '상태 엔진 격리(Localization) 방안'을 기획·적용</b>하여<br>
+                    대화의 안정성을 개선했습니다.
                   </p>
                 </div>
 
@@ -1347,9 +1394,11 @@
                   <span
                     style="font-weight: bold; color: #7b1fa2; font-size: 12px; display: block; margin-bottom: 5px;">🎨
                     3. 인게임 UI/UX 및 캐릭터 그래픽 전담 제작 (Visual)</span>
-                  <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.5;">
-                    1인 기획/디자인 체제 하에 Figma 기반 UI/UX 설계부터 <b>오크, 다크엘프 등 마족 캐릭터 원화와 3단계 감정 표정 스프라이트 제작</b>을 주도했습니다. 인게임 복고풍
-                    OS 데스크톱 인터페이스와 엔딩 컷씬(15장) 등 그래픽 에셋 전체를 전담 구축했습니다.
+                  <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.6;">
+                    1인 기획/디자인 체제 하에 Figma 기반 UI/UX 설계부터<br>
+                    <b>오크, 다크엘프 등 마족 캐릭터 원화와 3단계 감정 표정 스프라이트 제작</b>을 주도했습니다.<br><br>
+                    인게임 복고풍 OS 데스크톱 인터페이스와 엔딩 컷씬(15장) 등<br>
+                    그래픽 에셋 전체를 전담 구축했습니다.
                   </p>
                 </div>
 
@@ -1359,8 +1408,8 @@
                     style="font-weight: bold; color: #e65100; font-size: 12px; display: block; margin-bottom: 5px;">🎵
                     4. AI 사운드 이퀄라이징 믹싱 및 음악 제작 (Audio)</span>
                   <p style="margin: 0; font-size: 11px; color: #444; line-height: 1.5;">
-                    레트로풍 효과음의 EQ 및 믹싱(Mixing) 등 <b>게임 오디오 리소스 전량을 직접 후가공</b>하여 청각적 몰입감을 배가시켰습니다. 추가로 라디오 필터가 적용된 Lo-Fi
-                    음악 12트랙과 엔딩곡 4곡을 직접 작곡·커밋하여 프로젝트 완성도를 끌어올렸습니다.
+                    오리지널 멜로디를 직접 작곡한 후 <b>AI로 리소스를 추출하고 EQ · Mixing 후가공</b>하여 게임 오디오 리소스를 완성했습니다. 또한 완성된 트랙을 레퍼런스 삼아 AI로 신규곡을 추가 생성하는 방식으로
+                    Lo-Fi BGM 12트랙과 엔딩 테마 4곡을 제작·커밋하여 프로젝트 완성도를 끌어올렸습니다.
                   </p>
                 </div>
 
@@ -1374,16 +1423,34 @@
             <div class="summary-video-row" style="display: flex; gap: 15px; margin-top: 10px; flex-wrap: wrap;">
               <div class="video-card-summary" style="flex: 1; min-width: 320px;">
                 <p style="font-weight: bold; font-size: 12px; margin: 0 0 6px 0;">🎮 최종 빌드 시연영상 (CCTV.exe)</p>
-                <div style="background-color: black; border: 1.5px solid #aaa; aspect-ratio: 16/9; overflow: hidden;">
-                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/X6qXc4WS8Bk?enablejsapi=1"
-                    title="최종 시연영상" frameborder="0" allowfullscreen></iframe>
+                <div style="background-color: black; border: 1.5px solid #aaa; aspect-ratio: 16/9; overflow: hidden; position:relative; cursor:pointer;">
+                  <div class="yt-facade" data-videoid="X6qXc4WS8Bk"
+                    style="position:relative; width:100%; height:100%; cursor:pointer; background:#000; overflow:hidden;">
+                    <img src="https://img.youtube.com/vi/X6qXc4WS8Bk/hqdefault.jpg"
+                      alt="최종 시연영상" style="width:100%; height:100%; object-fit:cover; opacity:0.85;" loading="lazy">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+                      width:52px; height:36px; background:#ff0000; border-radius:7px; display:flex;
+                      align-items:center; justify-content:center; box-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+                      <div style="width:0; height:0; border-top:9px solid transparent;
+                        border-bottom:9px solid transparent; border-left:16px solid #fff; margin-left:3px;"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="video-card-summary" style="flex: 1; min-width: 320px;">
                 <p style="font-weight: bold; font-size: 12px; margin: 0 0 6px 0;">🎨 기획 연출 피그마 데모 (Figma_Pitch.exe)</p>
-                <div style="background-color: black; border: 1.5px solid #aaa; aspect-ratio: 16/9; overflow: hidden;">
-                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/s4VClI4maBk?enablejsapi=1"
-                    title="피그마 시연영상" frameborder="0" allowfullscreen></iframe>
+                <div style="background-color: black; border: 1.5px solid #aaa; aspect-ratio: 16/9; overflow: hidden; position:relative; cursor:pointer;">
+                  <div class="yt-facade" data-videoid="s4VClI4maBk"
+                    style="position:relative; width:100%; height:100%; cursor:pointer; background:#000; overflow:hidden;">
+                    <img src="https://img.youtube.com/vi/s4VClI4maBk/hqdefault.jpg"
+                      alt="피그마 시연영상" style="width:100%; height:100%; object-fit:cover; opacity:0.85;" loading="lazy">
+                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+                      width:52px; height:36px; background:#ff0000; border-radius:7px; display:flex;
+                      align-items:center; justify-content:center; box-shadow: 0 2px 8px rgba(0,0,0,0.6);">
+                      <div style="width:0; height:0; border-top:9px solid transparent;
+                        border-bottom:9px solid transparent; border-left:16px solid #fff; margin-left:3px;"></div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1399,7 +1466,7 @@
                 target="_blank" class="summary-vending-can">
                 <div class="doc-can-img can-red"></div>
                 <div class="summary-can-details">
-                  <div class="can-title">핵심 기획서</div>
+                  <div class="can-title">핵심 기획서 캔</div>
                   <div class="can-desc">게임 전반 코어 루프 및 PM 일정 수립 명세</div>
                 </div>
               </a>
